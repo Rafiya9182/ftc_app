@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.util.Range;
 
 
 @TeleOp(name="Driver", group = "TeleOp")
-//@Disabled
+@Disabled
 public class driverPeriod extends OpMode {
 
     DcMotorController controllerFR;
