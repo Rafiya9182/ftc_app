@@ -9,6 +9,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
 /*
@@ -34,6 +35,13 @@ public class teleOpHolonomicDrive extends OpMode {
     DcMotor motorBackRight;
     DcMotor motorBackLeft;
 
+    Servo servo;
+
+    static final double MAX_POS     =  1.0;     // Maximum rotational position
+    static final double MIN_POS     =  0.0;     // Minimum rotational position
+
+    double  position = (MAX_POS - MIN_POS) / 2;
+
 
     public teleOpHolonomicDrive() {
 
@@ -54,6 +62,8 @@ public class teleOpHolonomicDrive extends OpMode {
         motorFrontLeft = hardwareMap.dcMotor.get("fl");
         motorBackLeft = hardwareMap.dcMotor.get("bl");
         motorBackRight = hardwareMap.dcMotor.get("br");
+
+        servo = hardwareMap.servo.get("servo");
 
         //These work without reversing (Tetrix motors).
         //AndyMark motors may be opposite, in which case uncomment these lines:
@@ -90,9 +100,9 @@ public class teleOpHolonomicDrive extends OpMode {
         BackRight = Range.clip(BackRight, -1, 1);
 
         FrontRight = (float) scaleInput(FrontRight);
-        FrontLeft = (float) scaleInput(FrontRight);
-        BackRight = (float) scaleInput(FrontRight);
-        BackRight = (float) scaleInput(FrontRight);
+        FrontLeft = (float) scaleInput(FrontLeft);
+        BackRight = (float) scaleInput(BackRight);
+        BackLeft = (float) scaleInput(BackLeft);
 
         // write the values to the motors
         motorFrontRight.setPower(FrontRight);
@@ -101,6 +111,21 @@ public class teleOpHolonomicDrive extends OpMode {
         motorBackRight.setPower(BackRight);
 
 
+
+        if (gamepad2.right_trigger > 0.2) {
+            servo.setPosition(.7);
+        }
+        else if(gamepad2.left_trigger > 0.2)
+        {
+            servo.setPosition(.5);
+        }
+        else
+        {
+            servo.setPosition(0.0);
+        }
+
+
+        telemetry.addData("Servo Position", "%5.2f", position);
 		/*
 		 * Telemetry for debugging
 		 */
