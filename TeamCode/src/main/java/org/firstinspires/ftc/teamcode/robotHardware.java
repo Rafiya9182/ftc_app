@@ -24,10 +24,12 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class robotHardware
 {
     /* Public OpMode members. */
-    public DcMotor  FLMotor   = null;
-    public DcMotor  FRMotor  = null;
-    public DcMotor  BLMotor   = null;
-    public DcMotor  BRMotor  = null;
+    public DcMotor  motorFrontRight   = null;
+    public DcMotor  motorFrontLeft  = null;
+    public DcMotor  motorBackRight   = null;
+    public DcMotor  motorBackLeft  = null;
+    public Servo    servo = null;
+    public Servo    servo2 = null;
 
 
     public static final double MID_SERVO       =  0.5 ;
@@ -48,36 +50,38 @@ public class robotHardware
         hwMap = ahwMap;
 
         // Define and Initialize Motors
-        FLMotor   = hwMap.dcMotor.get("fl_drive");
-        FRMotor  = hwMap.dcMotor.get("fr_drive");
-        BLMotor   = hwMap.dcMotor.get("bl_drive");
-        BRMotor  = hwMap.dcMotor.get("br_drive");
+        motorFrontRight   = hwMap.get(DcMotor.class, "fr");
+        motorFrontLeft  = hwMap.get(DcMotor.class, "fl");
+        motorBackRight   = hwMap.get(DcMotor.class, "br");
+        motorBackLeft  = hwMap.get(DcMotor.class, "bl");
+        servo   = hwMap.get(Servo.class, "servo");
+        servo2  =   hwMap.get(Servo.class, "servo2");
 
-        FLMotor.setDirection(DcMotor.Direction.REVERSE);
-        FRMotor.setDirection(DcMotor.Direction.REVERSE);
-        BLMotor.setDirection(DcMotor.Direction.REVERSE);
-        BRMotor.setDirection(DcMotor.Direction.REVERSE);
+        motorFrontRight.setDirection(DcMotor.Direction.REVERSE);
+        motorFrontLeft.setDirection(DcMotor.Direction.REVERSE);
+        motorBackRight.setDirection(DcMotor.Direction.REVERSE);
+        motorBackLeft.setDirection(DcMotor.Direction.REVERSE);
 
 
 
         // Set all motors to zero power
-        FLMotor.setPower(0);
-        FRMotor.setPower(0);
-        BLMotor.setPower(0);
-        BRMotor.setPower(0);
+        motorFrontRight.setPower(0);
+        motorFrontLeft.setPower(0);
+        motorBackRight.setPower(0);
+        motorBackLeft.setPower(0);
 
 
         // Set all motors to run without encoders.
         // May want to use RUN_USING_ENCODERS if encoders are installed.
-        FLMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        FRMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        BLMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        BRMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        FLMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        FRMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        BLMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        BRMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // Define and initialize ALL installed servos.
 

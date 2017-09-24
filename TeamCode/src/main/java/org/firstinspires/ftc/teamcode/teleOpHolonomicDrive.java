@@ -6,6 +6,7 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -26,52 +27,46 @@ import com.qualcomm.robotcore.util.Range;
         X           X
           X       X
 */
-@TeleOp(name = "Concept: HolonomicDrivetrain", group = "TeleOp")
-//@Disabled
+@TeleOp(name = "HolonomicDrivetrain", group = "TeleOp")
+@Disabled
 public class teleOpHolonomicDrive extends OpMode {
 
-    DcMotor motorFrontRight;
+    robotHardware   robot   = new robotHardware();   // Use a Pushbot's hardware
+
+    double     driveSpeed             = 0.5;
+    double     driveSpeed2             = 0.2;
+
+
+    /*DcMotor motorFrontRight;
     DcMotor motorFrontLeft;
     DcMotor motorBackRight;
     DcMotor motorBackLeft;
 
     Servo servo;
-
-    static final double MAX_POS     =  1.0;     // Maximum rotational position
-    static final double MIN_POS     =  0.0;     // Minimum rotational position
-
-    double  position = (MAX_POS - MIN_POS) / 2;
-
-
-    public teleOpHolonomicDrive() {
-
-    }
+    Servo servo2;
+*/
 
     @Override
     public void init() {
+        /* Initialize the hardware variables.
+         * The init() method of the hardware class does all the work here
+         */
+        robot.init(hardwareMap);
 
+        // Send telemetry message to signify robot waiting;
+        telemetry.addData("Say", "Hello Driver");    //
+    }
 
-		/*
-		 * Use the hardwareMap to get the dc motors and servos by name. Note
-		 * that the names of the devices must match the names used when you
-		 * configured your robot and created the configuration file.
-		 */
+     //Code to run REPEATEDLY after the driver hits INIT, but before they hit PLAY
 
+    @Override
+    public void init_loop() {
+    }
 
-        motorFrontRight = hardwareMap.dcMotor.get("fr");
-        motorFrontLeft = hardwareMap.dcMotor.get("fl");
-        motorBackLeft = hardwareMap.dcMotor.get("bl");
-        motorBackRight = hardwareMap.dcMotor.get("br");
+    //Code to run ONCE when the driver hits PLAY
 
-        servo = hardwareMap.servo.get("servo");
-
-        //These work without reversing (Tetrix motors).
-        //AndyMark motors may be opposite, in which case uncomment these lines:
-        motorFrontLeft.setDirection(DcMotor.Direction.REVERSE);
-        motorBackLeft.setDirection(DcMotor.Direction.REVERSE);
-        motorFrontRight.setDirection(DcMotor.Direction.REVERSE);
-        motorBackRight.setDirection(DcMotor.Direction.REVERSE);
-
+    @Override
+    public void start() {
     }
 
     @Override
@@ -93,39 +88,61 @@ public class teleOpHolonomicDrive extends OpMode {
         float BackRight = gamepad1LeftY + gamepad1LeftX - gamepad1RightX;
         float BackLeft = -gamepad1LeftY + gamepad1LeftX - gamepad1RightX;
 
-        // clip the right/left values so that the values never exceed +/- 1
+
+        /* clip the right/left values so that the values never exceed +/- 1
         FrontRight = Range.clip(FrontRight, -1, 1);
         FrontLeft = Range.clip(FrontLeft, -1, 1);
         BackLeft = Range.clip(BackLeft, -1, 1);
         BackRight = Range.clip(BackRight, -1, 1);
+        */
 
+
+        /* write the values to the motors
         FrontRight = (float) scaleInput(FrontRight);
         FrontLeft = (float) scaleInput(FrontLeft);
         BackRight = (float) scaleInput(BackRight);
         BackLeft = (float) scaleInput(BackLeft);
-
-        // write the values to the motors
-        motorFrontRight.setPower(FrontRight);
-        motorFrontLeft.setPower(FrontLeft);
-        motorBackLeft.setPower(BackLeft);
-        motorBackRight.setPower(BackRight);
+        */
 
 
-
-        if (gamepad2.right_trigger > 0.2) {
-            servo.setPosition(.7);
+        if (gamepad1.a){
+            robot.motorFrontRight.setPower(driveSpeed);
+            robot.motorFrontLeft.setPower(driveSpeed);
+            robot.motorBackLeft.setPower(driveSpeed);
+            robot.motorBackRight.setPower(driveSpeed);
         }
-        else if(gamepad2.left_trigger > 0.2)
-        {
-            servo.setPosition(.5);
+        else if (gamepad1.b){
+            robot.motorFrontRight.setPower(driveSpeed2);
+            robot.motorFrontLeft.setPower(driveSpeed2);
+            robot.motorBackLeft.setPower(driveSpeed2);
+            robot.motorBackRight.setPower(driveSpeed2);
         }
-        else
-        {
-            servo.setPosition(0.0);
+        else {
+
+            FrontRight = Range.clip(FrontRight, -1, 1);
+            FrontLeft = Range.clip(FrontLeft, -1, 1);
+            BackLeft = Range.clip(BackLeft, -1, 1);
+            BackRight = Range.clip(BackRight, -1, 1);
+
+            FrontRight = (float) scaleInput(FrontRight);
+            FrontLeft = (float) scaleInput(FrontLeft);
+            BackRight = (float) scaleInput(BackRight);
+            BackLeft = (float) scaleInput(BackLeft);
         }
 
 
-        telemetry.addData("Servo Position", "%5.2f", position);
+
+
+        //Manipulator moves two servos when hit trigger
+        if (gamepad1.right_trigger > 0.2) {
+            robot.servo.setPosition(1.0);
+            robot.servo2.setPosition(0.0);
+        } else {
+            robot.servo.setPosition(0.0);
+            robot.servo2.setPosition(1.0);
+        }
+
+
 		/*
 		 * Telemetry for debugging
 		 */
