@@ -64,7 +64,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  */
 
 @Autonomous(name="Auto", group="Autonomous")
-@Disabled
+//@Disabled
 public class expanHubTesting extends LinearOpMode {
 
     /* Declare OpMode members. */
@@ -78,7 +78,6 @@ public class expanHubTesting extends LinearOpMode {
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * 3.1415);
     static final double     DRIVE_SPEED             = 0.6;
-    static final double     TURN_SPEED              = 0.5;
 
     @Override
     public void runOpMode() {
@@ -117,9 +116,8 @@ public class expanHubTesting extends LinearOpMode {
 
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
-        encoderXDrive(DRIVE_SPEED,  48,  48, 5.0);  // S1: Forward 47 Inches with 5 Sec timeout
-        encoderYDrive(TURN_SPEED,   12, -12, 4.0);  // S2: Turn Right 12 Inches with 4 Sec timeout
-        encoderXDrive(DRIVE_SPEED, -24, -24, 4.0);  // S3: Reverse 24 Inches with 4 Sec timeout
+        encoderXDrive(DRIVE_SPEED,  -12,  12, 7.0);  // S1: Forward 47 Inches with 5 Sec timeout
+        encoderYDrive(DRIVE_SPEED,   -12, 12, 7.0);  // S2: Turn Right 12 Inches with 4 Sec timeout
 
         robot.servo.setPosition(0.0);            // S4: Stop and close the claw.
         sleep(1000);     // pause for servos to move
@@ -148,29 +146,30 @@ public class expanHubTesting extends LinearOpMode {
         if (opModeIsActive()) {
 
             // Determine new target position, and pass to motor controller
-            newLeftFrontTarget = robot.motorFrontRight.getCurrentPosition() + (int)(rightYInches * COUNTS_PER_INCH);
-            newRightFrontTarget = robot.motorFrontLeft.getCurrentPosition() + (int)(leftYInches * COUNTS_PER_INCH);
-            newRightBackTarget = robot.motorBackRight.getCurrentPosition() + (int)(rightYInches * COUNTS_PER_INCH);
+            newLeftFrontTarget = robot.motorFrontLeft.getCurrentPosition() + (int)(leftYInches * COUNTS_PER_INCH);
             newLeftBackTarget = robot.motorBackLeft.getCurrentPosition() + (int)(leftYInches * COUNTS_PER_INCH);
+            newRightFrontTarget = robot.motorFrontRight.getCurrentPosition() + (int)(rightYInches * COUNTS_PER_INCH);
+            newRightBackTarget = robot.motorBackRight.getCurrentPosition() + (int)(rightYInches * COUNTS_PER_INCH);
 
-            robot.motorFrontRight.setTargetPosition(newRightFrontTarget);
             robot.motorFrontLeft.setTargetPosition(newLeftFrontTarget);
-            robot.motorBackRight.setTargetPosition(newRightBackTarget);
             robot.motorBackLeft.setTargetPosition(newLeftBackTarget);
+            robot.motorFrontRight.setTargetPosition(newRightFrontTarget);
+            robot.motorBackRight.setTargetPosition(newRightBackTarget);
+
 
             // Turn On RUN_TO_POSITION
-            robot.motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             robot.motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             robot.motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
             // reset the timeout time and start motion.
             runtime.reset();
 
-            robot.motorFrontRight.setPower(Math.abs(speedY));
             robot.motorFrontLeft.setPower(Math.abs(speedY));
-            robot.motorBackRight.setPower(Math.abs(speedY));
             robot.motorBackLeft.setPower(Math.abs(speedY));
+            robot.motorFrontRight.setPower(Math.abs(speedY));
+            robot.motorBackRight.setPower(Math.abs(speedY));
 
             // keep looping while we are still active, and there is time left, and both motors are running.
             // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
@@ -180,17 +179,17 @@ public class expanHubTesting extends LinearOpMode {
             // onto the next step, use (isBusy() || isBusy()) in the loop test.
             while (opModeIsActive() &&
                     (runtime.seconds() < timeoutYS) &&
-                    (robot.motorFrontRight.isBusy() && robot.motorFrontLeft.isBusy() &&
-                        robot.motorBackRight.isBusy() && robot.motorBackLeft.isBusy())) {
+                    (robot.motorFrontLeft.isBusy() && robot.motorBackLeft.isBusy() &&
+                        robot.motorFrontRight.isBusy() && robot.motorBackRight.isBusy())) {
 
                 // Display it for the driver.
                 telemetry.addData("Path1",  "Running to %7d :%7d", newLeftFrontTarget,  newLeftBackTarget,
                         newRightFrontTarget, newRightBackTarget);
                 telemetry.addData("Path2",  "Running at %7d :%7d",
-                        robot.motorFrontRight.getCurrentPosition(),
-                        robot.motorBackRight.getCurrentPosition(),
                         robot.motorFrontLeft.getCurrentPosition(),
-                        robot.motorBackLeft.getCurrentPosition());
+                        robot.motorBackLeft.getCurrentPosition(),
+                        robot.motorFrontRight.getCurrentPosition(),
+                        robot.motorBackRight.getCurrentPosition());
                 telemetry.update();
             }
 

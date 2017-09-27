@@ -28,7 +28,7 @@ import com.qualcomm.robotcore.util.Range;
           X       X
 */
 @TeleOp(name = "HolonomicDrivetrain", group = "TeleOp")
-@Disabled
+//@Disabled
 public class teleOpHolonomicDrive extends OpMode {
 
     robotHardware   robot   = new robotHardware();   // Use a Pushbot's hardware
@@ -37,14 +37,6 @@ public class teleOpHolonomicDrive extends OpMode {
     double     driveSpeed2             = 0.2;
 
 
-    /*DcMotor motorFrontRight;
-    DcMotor motorFrontLeft;
-    DcMotor motorBackRight;
-    DcMotor motorBackLeft;
-
-    Servo servo;
-    Servo servo2;
-*/
 
     @Override
     public void init() {
@@ -89,47 +81,23 @@ public class teleOpHolonomicDrive extends OpMode {
         float BackLeft = -gamepad1LeftY + gamepad1LeftX - gamepad1RightX;
 
 
-        /* clip the right/left values so that the values never exceed +/- 1
+        //clip the right/left values so that the values never exceed +/- 1
         FrontRight = Range.clip(FrontRight, -1, 1);
         FrontLeft = Range.clip(FrontLeft, -1, 1);
         BackLeft = Range.clip(BackLeft, -1, 1);
         BackRight = Range.clip(BackRight, -1, 1);
-        */
 
 
-        /* write the values to the motors
+        //write the values to the motors
         FrontRight = (float) scaleInput(FrontRight);
         FrontLeft = (float) scaleInput(FrontLeft);
         BackRight = (float) scaleInput(BackRight);
         BackLeft = (float) scaleInput(BackLeft);
-        */
 
-
-        if (gamepad1.a){
-            robot.motorFrontRight.setPower(driveSpeed);
-            robot.motorFrontLeft.setPower(driveSpeed);
-            robot.motorBackLeft.setPower(driveSpeed);
-            robot.motorBackRight.setPower(driveSpeed);
-        }
-        else if (gamepad1.b){
-            robot.motorFrontRight.setPower(driveSpeed2);
-            robot.motorFrontLeft.setPower(driveSpeed2);
-            robot.motorBackLeft.setPower(driveSpeed2);
-            robot.motorBackRight.setPower(driveSpeed2);
-        }
-        else {
-
-            FrontRight = Range.clip(FrontRight, -1, 1);
-            FrontLeft = Range.clip(FrontLeft, -1, 1);
-            BackLeft = Range.clip(BackLeft, -1, 1);
-            BackRight = Range.clip(BackRight, -1, 1);
-
-            FrontRight = (float) scaleInput(FrontRight);
-            FrontLeft = (float) scaleInput(FrontLeft);
-            BackRight = (float) scaleInput(BackRight);
-            BackLeft = (float) scaleInput(BackLeft);
-        }
-
+        robot.motorFrontRight.setPower(FrontRight);
+        robot.motorFrontLeft.setPower(FrontLeft);
+        robot.motorBackLeft.setPower(BackLeft);
+        robot.motorBackRight.setPower(BackRight);
 
 
 
