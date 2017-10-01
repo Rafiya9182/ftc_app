@@ -22,142 +22,29 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 *
 * HOWEVER: it works so you can always come back to this version if you need to.
 */
-public class vuforiaSensor
-{
+public class vuforiaSensor {
     // Variables to be used for later
     VuforiaLocalizer vuforiaLocalizer;
     VuforiaLocalizer.Parameters parameters;
     VuforiaTrackables visionTargets;
-    VuforiaTrackable wheels;
-    VuforiaTrackable tools;
-    VuforiaTrackable legos;
-    VuforiaTrackable gears;
-    VuforiaTrackableDefaultListener listener;
-    VuforiaTrackableDefaultListener listen;
-    VuforiaTrackableDefaultListener listening;
-    VuforiaTrackableDefaultListener list;
+    VuforiaTrackable left;
+    VuforiaTrackable center;
+    VuforiaTrackable right;
 
-    OpenGLMatrix lastKnownLocation;
-    OpenGLMatrix phoneLocation;
-
-    private float robotX = 0;
-    private float robotY = 0;
-    private float robotAngle = 0;
-
-    float mmPerInch = 25.4f;
-    float mmBotWidth = 18 * mmPerInch;            // ... or whatever is right for your robot
-    float mmFTCFieldWidth = (12 * 12 - 2) * mmPerInch;   // the FTC field is ~11'10" center-to-center of the glass panels
-
-    public static final String VUFORIA_KEY = "AdksQ3j/////AAAAGVB9GUsSEE0BlMaVB7HcRZRM4Sv74bxusFbCpn3gwnUkr3GuOtSWhrTCHnTU/93+Im+JlrYI6///bytu1igZT48xQ6182nSTpVzJ2ZP+Q/sNzSg3qvIOMnjEptutngqB+e3mQ1+YTiDa9aZod1e8X7UvGsAJ3cfV+X/S3E4M/81d1IRSMPRPEaLpKFdMqN3AcbDpBHoqp82fAp7XWVN3qd/BRe0CAAoNsr26scPBAxvm9cizRG1WeRSFms3XkwFN6eGpH7VpNAdPPXep9RQ3lLZMTFQGOfiV/vRQXq/Tlaj/b7dkA12zBSW81MfBiXRxp06NGieFe7KvXNuu2aDyyXoaPFsI44FEGp1z/SVSEVR4"; // Insert your own key here
+    public static final String VUFORIA_KEY = "AcOQber/////AAAAGd+Wx7PVUULtlRxS6UeH3RgFL7O2kqLUIvryVwUgd7KQqprL1p5dzd2lpfSa0GIT1bxUPE33ZUWu8oe1S7pT7faMKK2buUugP8KJ3Vj2smsM7+K0LrTAWX/e5tW2zptEhgmH4XOGMD0rgiXHEopZWHVKfRzT2icGLg3ErUTYgHtNjLneooZhWiWDnXHEQFOc4JIoTz63aSIptNjN5q9fXbOwj1Wf4/nU+sxCU0EujqhoZWIztt2zI+mX1iOkGd/qyaSjaxdQ0q1E+YNx+v+gTZ5b0rmyr2ody3e4c4S6nTR9AhagdoDRL6VOm6v5CWWpNwM+ETWuYOBtGm5iTc/YxniKwXbClrFkXckzM+9A6lPt";
 
     //sets your starting location to whatever tile you are on. as well as how you have rotated it.
-    public vuforiaSensor(double x, double y, double a)
-    {
-        float u, v;
-        u = (float)x-2.5f;
-        v = (float)y-2.5f;
+    public vuforiaSensor() {
 
-        //In order to not crash the program it needs to know your starting location.
-        lastKnownLocation = createMatrix(-u*48*mmPerInch,v*48*mmPerInch, 0, 0, 0, (float)a);
     }
 
     //Tells the camera to start looking for the pictures
-    public void visionActiavte()
-    {
+    public void visionActiavte() {
         visionTargets.activate();
     }
 
-    //method to get any distance or angle needed.
-    public float getRobot(String name, String param)
-    {
-        float ret = 10000;
-        for(int i = 0; i < visionTargets.size(); i++) {
-            if (visionTargets.get(i).getName() == name) {
-                OpenGLMatrix latestLocation;
-                switch (i)
-                {
-                    case 0:
-                        latestLocation = listener.getUpdatedRobotLocation();
-                        break;
-                    case 1:
-                        latestLocation = listen.getUpdatedRobotLocation();
-                        break;
-                    case 2:
-                        latestLocation = listening.getUpdatedRobotLocation();
-                        break;
-                    case 3:
-                        latestLocation = list.getUpdatedRobotLocation();
-                        break;
-                    default:
-                        latestLocation = null;
-                }
 
-                if(latestLocation != null)
-                    lastKnownLocation = latestLocation;
-
-                float[] coordinates = lastKnownLocation.getTranslation().getData();
-
-                robotX = coordinates[0];
-                robotY = coordinates[1];
-                robotAngle = Orientation.getOrientation(lastKnownLocation, AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES).thirdAngle;
-
-                switch (param)
-                {
-                    case "x":
-                        ret = robotX;
-                        break;
-                    case "y":
-                        ret = robotY;
-                        break;
-                    case "angle":
-                        ret = robotAngle;
-                        break;
-                    case "xAway":
-                        ret = visionTargets.get(i).getLocation().getData()[12]-robotX;
-                        break;
-                    case "yAway":
-                        ret = visionTargets.get(i).getLocation().getData()[13]-robotY;
-                        break;
-                    default:
-                        ret = 10000;
-                }
-
-            }
-        }
-        return ret;
-    }
-
-    public boolean isVis(String name)
-    {
-        boolean ret = false;
-        for (int i = 0; i < visionTargets.size(); i++) {
-            if (visionTargets.get(i).getName() == name) {
-
-                switch (i){
-                    case 0:
-                        ret = listener.isVisible();
-                        break;
-                    case 1:
-                        ret = listen.isVisible();
-                        break;
-                    case 2:
-                        ret = listening.isVisible();
-                        break;
-                    case 3:
-                        ret = list.isVisible();
-                        break;
-                    default:
-                        ret = false;
-                }
-
-            }
-        }
-        return ret;
-    }
-
-
-    public void setupVuforia()
-    {
+    public void setupVuforia() {
         // Setup parameters to create localizer
         parameters = new VuforiaLocalizer.Parameters();
         parameters.vuforiaLicenseKey = VUFORIA_KEY;
@@ -166,57 +53,25 @@ public class vuforiaSensor
 
         // These are the vision targets that we want to use
         // The string needs to be the name of the appropriate .xml file in the assets folder
-        visionTargets = vuforiaLocalizer.loadTrackablesFromAsset("FTC_2016-17");
-        Vuforia.setHint(HINT.HINT_MAX_SIMULTANEOUS_IMAGE_TARGETS, 4);
+        visionTargets = vuforiaLocalizer.loadTrackablesFromAsset("RelicVuMark");
+        Vuforia.setHint(HINT.HINT_MAX_SIMULTANEOUS_IMAGE_TARGETS, 3);
 
 
         // Setup the wheels to be tracked
-        wheels = visionTargets.get(0); // 0 corresponds to the wheels target
-        wheels.setName("Wheels Target");
-        wheels.setLocation(createMatrix(12*mmPerInch, mmFTCFieldWidth/2, 0, 90, 0, 0));
+        left = visionTargets.get(0); // 0 corresponds to the left target
+        left.setName("Left Target");
+
         // Setup the tools to be tracked
-        tools = visionTargets.get(1); // 0 corresponds to the wheels target
-        tools.setName("Tools Target");
-        tools.setLocation(createMatrix(-mmFTCFieldWidth/2, 36*mmPerInch, 0, 90, 0, 90));
+        center = visionTargets.get(1); // 1 corresponds to the center target
+        center.setName("Center Target");
+
         // Setup the legos to be tracked
-        legos = visionTargets.get(2); // 0 corresponds to the wheels target
-        legos.setName("Legos Target");
-        legos.setLocation(createMatrix(-36*mmPerInch, mmFTCFieldWidth/2, 0, 90, 0, 0));
+        right = visionTargets.get(2); // 2 corresponds to the right target
+        right.setName("Right Target");
+
         // Setup the gears to be tracked
-        gears = visionTargets.get(3); // 0 corresponds to the wheels target
-        gears.setName("Gears Target");
-        gears.setLocation(createMatrix(-mmFTCFieldWidth/2, -12*mmPerInch, 0, 90, 0, 90));
 
-        // Set phone location on robot
-        phoneLocation = createMatrix(0, mmBotWidth/2, 0, -90, 0, 90);
 
-        // Setup listener and inform it of phone information
-        listener = (VuforiaTrackableDefaultListener) wheels.getListener();
-        listener.setPhoneInformation(phoneLocation, parameters.cameraDirection);
 
-        listen = (VuforiaTrackableDefaultListener) tools.getListener();
-        listen.setPhoneInformation(phoneLocation, parameters.cameraDirection);
-
-        listening = (VuforiaTrackableDefaultListener) legos.getListener();
-        listening.setPhoneInformation(phoneLocation, parameters.cameraDirection);
-
-        list = (VuforiaTrackableDefaultListener) gears.getListener();
-        list.setPhoneInformation(phoneLocation, parameters.cameraDirection);
-    }
-
-    // Creates a matrix for determining the locations and orientations of objects
-    // Units are millimeters for x, y, and z, and degrees for u, v, and w
-    private OpenGLMatrix createMatrix(float x, float y, float z, float u, float v, float w)
-    {
-        return OpenGLMatrix.translation(x, y, z).
-                multiplied(Orientation.getRotationMatrix(
-                        AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES, u, v, w));
-    }
-
-    // Formats a matrix into a readable string
-    private String formatMatrix(OpenGLMatrix matrix)
-    {
-        return matrix.formatAsTransform();
     }
 }
-

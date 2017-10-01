@@ -28,7 +28,7 @@ import com.qualcomm.robotcore.util.Range;
           X       X
 */
 @TeleOp(name = "HolonomicDrivetrain", group = "TeleOp")
-//@Disabled
+@Disabled
 public class teleOpHolonomicDrive extends OpMode {
 
     robotHardware   robot   = new robotHardware();   // Use a Pushbot's hardware

@@ -39,7 +39,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  */
 
 @Autonomous(name="RIP", group="Red")
-//@Disabled
+@Disabled
 public class samLearningCode extends LinearOpMode {
 
     /* Declare OpMode members. */
