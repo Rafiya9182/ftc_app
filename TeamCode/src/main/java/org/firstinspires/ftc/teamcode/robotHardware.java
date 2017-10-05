@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -28,8 +29,12 @@ public class robotHardware
     public DcMotor  motorFrontLeft  = null;
     public DcMotor  motorBackRight   = null;
     public DcMotor  motorBackLeft  = null;
+    public DcMotor  motorLift = null;
     public Servo    servo = null;
     public Servo    servo2 = null;
+    public Servo    servoColor = null;
+
+    public int[]    colors = null;
 
 
     public static final double MID_SERVO       =  0.5 ;
@@ -54,13 +59,16 @@ public class robotHardware
         motorFrontLeft  = hwMap.get(DcMotor.class, "fl");
         motorBackRight   = hwMap.get(DcMotor.class, "br");
         motorBackLeft  = hwMap.get(DcMotor.class, "bl");
-        servo   = hwMap.get(Servo.class, "servo");
+        motorLift   =   hwMap.get(DcMotor.class, "nu");
+        servo   =   hwMap.get(Servo.class, "servo");
         servo2  =   hwMap.get(Servo.class, "servo2");
+        servoColor  =   hwMap.get(Servo.class, "servo color");
 
         motorFrontRight.setDirection(DcMotor.Direction.REVERSE);
         motorFrontLeft.setDirection(DcMotor.Direction.REVERSE);
         motorBackRight.setDirection(DcMotor.Direction.REVERSE);
         motorBackLeft.setDirection(DcMotor.Direction.REVERSE);
+        motorLift.setDirection(DcMotor.Direction.REVERSE);
 
 
 
@@ -69,6 +77,7 @@ public class robotHardware
         motorFrontLeft.setPower(0);
         motorBackRight.setPower(0);
         motorBackLeft.setPower(0);
+        motorLift.setPower(0);
 
 
         // Set all motors to run without encoders.
@@ -77,11 +86,13 @@ public class robotHardware
         motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // Define and initialize ALL installed servos.
 

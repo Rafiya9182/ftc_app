@@ -1,25 +1,20 @@
 package org.firstinspires.ftc.teamcode;
 
-
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcore.external.ClassFactory;
-import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
-
-/* created by Keran 10/03/17
+/**
  *  The code is written using a method called: encoderDrive(speed, leftInches, rightInches, timeoutS)
+ *  that performs the actual movement.
  */
 
-@Autonomous(name="AutoVuforia", group="Autonomous")
+@Autonomous(name="AutoPark", group="Autonomous")
 @Disabled
-public class autonVuforia extends LinearOpMode {
+public class autonEncoderOnly extends LinearOpMode {
 
     /* Declare OpMode members. */
     robotHardware   robot   = new robotHardware();   // Use a Pushbot's hardware
@@ -32,9 +27,6 @@ public class autonVuforia extends LinearOpMode {
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * 3.1415);
     static final double     DRIVE_SPEED             = 0.6;
-
-    vuforiaSensor vuforiaSensor = new vuforiaSensor();
-    VuforiaLocalizer vuforia;
 
     @Override
     public void runOpMode() {
@@ -59,14 +51,6 @@ public class autonVuforia extends LinearOpMode {
         robot.motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-
-        VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
-        VuforiaTrackable relicTemplate = relicTrackables.get(0);
-        relicTemplate.setName("relicVuMarkTemplate");
-        RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
-
-
-
         // Send telemetry message to indicate successful Encoder reset
         telemetry.addData("Path0",  "Starting at %7d :%7d",
             robot.motorFrontRight.getCurrentPosition(),
@@ -76,31 +60,18 @@ public class autonVuforia extends LinearOpMode {
 
         telemetry.update();
 
-
-        vuforiaSensor.visionActivate();
-
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
         encoderXDrive(DRIVE_SPEED,  -12,  12, 7.0);  // S1: Forward 47 Inches with 5 Sec timeout
-        encoderYDrive(DRIVE_SPEED,   -12, 12, 7.0);
+        encoderYDrive(DRIVE_SPEED,   -12, 12, 7.0);  // S2: Turn Right 12 Inches with 4 Sec timeout
 
-        if (vuMark != RelicRecoveryVuMark.LEFT){
-            encoderXDrive(DRIVE_SPEED, 12, 12,5.0);
-        }
-        else if(vuMark != RelicRecoveryVuMark.CENTER){
-            encoderXDrive(DRIVE_SPEED, 12, 12,5.0);
-
-        }
-        else if(vuMark != RelicRecoveryVuMark.RIGHT){
-            encoderXDrive(DRIVE_SPEED, 12, 12,5.0);
-        }
-
-
-        robot.servo.setPosition(0.0);            // S4: Stop and close the claw.
+        robot.servo.setPosition(0.0);            // S4: Stop and close the claw. Need test
         sleep(1000);     // pause for servos to move
+
+
 
         telemetry.addData("Path", "Complete");
         telemetry.update();
@@ -262,7 +233,4 @@ public class autonVuforia extends LinearOpMode {
             //  sleep(250);   // optional pause after each move
         }
     }
-
-    }
-
-
+}

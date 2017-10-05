@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 /*
@@ -32,9 +33,6 @@ import com.qualcomm.robotcore.util.Range;
 public class teleOpHolonomicDrive extends OpMode {
 
     robotHardware   robot   = new robotHardware();   // Use a Pushbot's hardware
-
-    double     driveSpeed             = 0.5;
-    double     driveSpeed2             = 0.2;
 
 
 
@@ -102,13 +100,22 @@ public class teleOpHolonomicDrive extends OpMode {
 
 
         //Manipulator moves two servos when hit trigger
-        if (gamepad1.right_trigger > 0.2) {
+        if (gamepad2.right_trigger > 0.2) {
             robot.servo.setPosition(1.0);
             robot.servo2.setPosition(0.0);
+        }  else if (gamepad2.left_trigger > 0.2) {
+            robot.servo.setPosition(.5);
+            robot.servo2.setPosition(.5);
         } else {
             robot.servo.setPosition(0.0);
             robot.servo2.setPosition(1.0);
         }
+
+
+        //lift code for gradual ascent and descent
+        double liftPower = -gamepad2.left_stick_y;
+        liftPower = Range.clip(liftPower, -.5, 5);
+        robot.motorLift.setPower(liftPower);
 
 
 		/*
