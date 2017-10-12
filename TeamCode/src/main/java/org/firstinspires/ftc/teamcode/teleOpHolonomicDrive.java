@@ -29,7 +29,7 @@ import com.qualcomm.robotcore.util.Range;
           X       X
 */
 @TeleOp(name = "HolonomicDrivetrain", group = "TeleOp")
-@Disabled
+//@Disabled
 public class teleOpHolonomicDrive extends OpMode {
 
     robotHardware   robot   = new robotHardware();   // Use a Pushbot's hardware
@@ -100,22 +100,19 @@ public class teleOpHolonomicDrive extends OpMode {
 
 
         //Manipulator moves two servos when hit trigger
-        if (gamepad2.right_trigger > 0.2) {
+        if (gamepad2.a) {
             robot.servo.setPosition(1.0);
             robot.servo2.setPosition(0.0);
-        }  else if (gamepad2.left_trigger > 0.2) {
+        }  else {
             robot.servo.setPosition(.5);
             robot.servo2.setPosition(.5);
-        } else {
-            robot.servo.setPosition(0.0);
-            robot.servo2.setPosition(1.0);
         }
 
 
         //lift code for gradual ascent and descent
         double liftPower = -gamepad2.left_stick_y;
         liftPower = Range.clip(liftPower, -.5, 5);
-        robot.motorLift.setPower(liftPower);
+        //robot.motorLift.setPower(liftPower);
 
 
 		/*

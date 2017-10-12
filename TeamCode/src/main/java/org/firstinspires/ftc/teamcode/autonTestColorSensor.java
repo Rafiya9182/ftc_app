@@ -1,9 +1,14 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.app.Activity;
+import android.graphics.Color;
+import android.view.View;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.LED;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -12,14 +17,16 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  *  that performs the actual movement.
  */
 
-@Autonomous(name="AutoPark", group="Autonomous")
+@Autonomous(name="AutoColor", group="Autonomous")
 @Disabled
-public class autonEncoderOnly extends LinearOpMode {
+public class autonTestColorSensor extends LinearOpMode {
 
     /* Declare OpMode members. */
     robotHardware   robot   = new robotHardware();   // Use a Pushbot's hardware
 
     private ElapsedTime     runtime = new ElapsedTime();
+    int[] colors;
+    ColorSensor colorSensor;
 
     static final double     COUNTS_PER_MOTOR_REV    = 1440 ;    // eg: TETRIX Motor Encoder
     static final double     DRIVE_GEAR_REDUCTION    = 2.0 ;     // This is < 1.0 if geared UP
@@ -36,6 +43,8 @@ public class autonEncoderOnly extends LinearOpMode {
          * The init() method of the hardware class does all the work here
          */
         robot.init(hardwareMap);
+        colorSensor = hardwareMap.colorSensor.get("color");
+
 
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Status", "Resetting Encoders");    //
@@ -68,10 +77,25 @@ public class autonEncoderOnly extends LinearOpMode {
         encoderXDrive(DRIVE_SPEED,  -12,  12, 7.0);  // S1: Forward 47 Inches with 5 Sec timeout
         encoderYDrive(DRIVE_SPEED,   -12, 12, 7.0);  // S2: Turn Right 12 Inches with 4 Sec timeout
 
-        robot.servo.setPosition(0.0);            // S4: Stop and close the claw. Need test
+
+        //set servo
+        robot.servo.setPosition(0.0);            // S4: Stop and close the claw.
         sleep(1000);     // pause for servos to move
 
 
+        //color sensor sode for jewels
+        runtime.reset();
+        while(runtime.seconds() < 7 && opModeIsActive()) {
+            colors = colorSensor();
+            telemetry.addData("red", colors[0]);
+            telemetry.addData("blue", colors[1]);
+            telemetry.update();
+            if (colors[1] > colors[0]) {
+                sleep(5000);
+                encoderXDrive(DRIVE_SPEED, .3, .3, 5);
+            }
+            sleep(2000);
+        }
 
         telemetry.addData("Path", "Complete");
         telemetry.update();
@@ -233,4 +257,20 @@ public class autonEncoderOnly extends LinearOpMode {
             //  sleep(250);   // optional pause after each move
         }
     }
+    public int[] colorSensor () {
+        int[] ret = new int[2];
+
+        while (opModeIsActive()) {
+            telemetry.addData("Red  ", colorSensor.red());
+            telemetry.addData("Blue ", colorSensor.blue());
+            ret[0] = colorSensor.red();
+            ret[1] = colorSensor.blue();
+            telemetry.update();
+            break;
+        }
+        return ret;
+    }
+
+
+
 }

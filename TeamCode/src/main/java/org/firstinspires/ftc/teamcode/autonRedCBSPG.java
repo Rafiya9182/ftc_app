@@ -1,14 +1,9 @@
 package org.firstinspires.ftc.teamcode;
 
-import android.app.Activity;
-import android.graphics.Color;
-import android.view.View;
-
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.ColorSensor;
-import com.qualcomm.robotcore.hardware.LED;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -17,16 +12,14 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  *  that performs the actual movement.
  */
 
-@Autonomous(name="AutoColor", group="Autonomous")
-@Disabled
-public class autonColorSensor extends LinearOpMode {
+@Autonomous(name="AutoPark", group="Autonomous")
+//@Disabled
+public class autonRedCBSPG extends LinearOpMode {
 
     /* Declare OpMode members. */
     robotHardware   robot   = new robotHardware();   // Use a Pushbot's hardware
 
     private ElapsedTime     runtime = new ElapsedTime();
-    int[] colors;
-    ColorSensor colorSensor;
 
     static final double     COUNTS_PER_MOTOR_REV    = 1440 ;    // eg: TETRIX Motor Encoder
     static final double     DRIVE_GEAR_REDUCTION    = 2.0 ;     // This is < 1.0 if geared UP
@@ -34,6 +27,12 @@ public class autonColorSensor extends LinearOpMode {
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * 3.1415);
     static final double     DRIVE_SPEED             = 0.6;
+    static final double     SERVO_POSITION          = .2;
+    static final double     SERVO_POSITION2          = .8;
+
+
+    ElapsedTime timer = new ElapsedTime();
+
 
     @Override
     public void runOpMode() {
@@ -43,8 +42,6 @@ public class autonColorSensor extends LinearOpMode {
          * The init() method of the hardware class does all the work here
          */
         robot.init(hardwareMap);
-        colorSensor = hardwareMap.colorSensor.get("color");
-
 
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Status", "Resetting Encoders");    //
@@ -72,30 +69,24 @@ public class autonColorSensor extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
-        // Step through each leg of the path,
-        // Note: Reverse movement is obtained by setting a negative distance (not speed)
-        encoderXDrive(DRIVE_SPEED,  -12,  12, 7.0);  // S1: Forward 47 Inches with 5 Sec timeout
-        encoderYDrive(DRIVE_SPEED,   -12, 12, 7.0);  // S2: Turn Right 12 Inches with 4 Sec timeout
+        //setting servos to glyph size
+        robot.servo.setPosition(SERVO_POSITION);
+        robot.servo2.setPosition(SERVO_POSITION2);
 
 
-        //set servo
-        robot.servo.setPosition(0.0);            // S4: Stop and close the claw.
         sleep(1000);     // pause for servos to move
 
 
-        //color sensor sode for jewels
-        runtime.reset();
-        while(runtime.seconds() < 7 && opModeIsActive()) {
-            colors = colorSensor();
-            telemetry.addData("red", colors[0]);
-            telemetry.addData("blue", colors[1]);
-            telemetry.update();
-            if (colors[1] > colors[0]) {
-                sleep(5000);
-                encoderXDrive(DRIVE_SPEED, .3, .3, 5);
-            }
-            sleep(2000);
-        }
+        //driving from CBS (close balancing stone) to cryptobox, robot front facing wall
+        //X: (-, +) = left; (+, -) = right
+        //Y: (-, +) = backward; (+, -) = forward
+        encoderXDrive(DRIVE_SPEED,  -6,  6, 7.0);// goes left to get off balancing stone
+        sleep(500);
+        encoderXDrive(DRIVE_SPEED, -10, 10, 7.0); // continues left to front og cryptobox
+        sleep(500);
+        encoderYDrive(DRIVE_SPEED, 4, 4, 7.0); //forward to put glyph in
+        //encoderYDrive(DRIVE_SPEED,   -12, 12, 7.0);  // goes back
+
 
         telemetry.addData("Path", "Complete");
         telemetry.update();
@@ -257,20 +248,6 @@ public class autonColorSensor extends LinearOpMode {
             //  sleep(250);   // optional pause after each move
         }
     }
-    public int[] colorSensor () {
-        int[] ret = new int[2];
-
-        while (opModeIsActive()) {
-            telemetry.addData("Red  ", colorSensor.red());
-            telemetry.addData("Blue ", colorSensor.blue());
-            ret[0] = colorSensor.red();
-            ret[1] = colorSensor.blue();
-            telemetry.update();
-            break;
-        }
-        return ret;
-    }
-
 
 
 }
