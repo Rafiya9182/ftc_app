@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  *  that performs the actual movement.
  */
 
-@Autonomous(name="AutoPark", group="Autonomous")
+@Autonomous(name="AutoBluePG", group="Autonomous")
 //@Disabled
 public class autonBlueCBSPG extends LinearOpMode {
 
