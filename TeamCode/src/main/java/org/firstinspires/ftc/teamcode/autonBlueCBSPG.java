@@ -78,11 +78,9 @@ public class autonBlueCBSPG extends LinearOpMode {
         //driving from CBS (close balancing stone) to cryptobox, robot front facing wall
         //X: (-, +) = left; (+, -) = right
         //Y: (-, +) = backward; (+, -) = forward
-        encoderXDrive(DRIVE_SPEED,  6,  -6, 7.0);// goes right to get off balancing stone
+        encoderXDrive(DRIVE_SPEED, 14, -14, 7.0); // continues right to front og cryptobox
         sleep(500);
-        encoderXDrive(DRIVE_SPEED, 10, -10, 7.0); // continues right to front og cryptobox
-        sleep(500);
-        encoderYDrive(DRIVE_SPEED, 4, 4, 7.0); //forward to put glyph in
+        encoderYDrive(DRIVE_SPEED, -4, 4, 7.0); //forward to put glyph in
         //encoderYDrive(DRIVE_SPEED,   -12, 12, 7.0);  // goes back
 
 

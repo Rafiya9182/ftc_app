@@ -111,7 +111,7 @@ public class teleOpHolonomicDrive extends OpMode {
 
         //lift code for gradual ascent and descent
         double liftPower = -gamepad2.left_stick_y;
-        liftPower = Range.clip(liftPower, -.5, 5);
+        liftPower = Range.clip(liftPower, -.25, .25);
         robot.motorLift.setPower(liftPower);
 
 
