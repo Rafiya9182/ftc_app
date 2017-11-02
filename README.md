@@ -42,8 +42,6 @@ For technical questions regarding the SDK, please visit the FTC Technology forum
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;http://ftcforum.usfirst.org/forumdisplay.php?156-FTC-Technology
 
 
-<<<<<<< HEAD
-=======
 **************************************************************************************
 # Release Information
 **************************************************************************************
@@ -61,7 +59,6 @@ Changes with version 3.5 include:
  * Improved error message on OnBot Java that occurs when renaming a file fails.
  * Removed unneeded resources from android.jar binaries used by OnBot Java to reduce final size of Robot Controller app.
  * Added MR_ANALOG_TOUCH_SENSOR block to Blocks Programming Tool.
->>>>>>> 5888d9537825e6b41e47502a3cd4fc064254a132
 
 **************************************************************************************
 # Release Information
@@ -69,11 +66,7 @@ Changes with version 3.5 include:
 
 Version 3.4 (built on 17.09.06)
 
-<<<<<<< HEAD
-Changes with verion 3.4 include:
-=======
 Changes with version 3.4 include:
->>>>>>> 5888d9537825e6b41e47502a3cd4fc064254a132
  * Added telemetry.update() statement for BlankLinearOpMode template.
  * Renamed sample Block op modes to be more consistent with Java samples.
  * Added some additional sample Block op modes.
@@ -110,10 +103,6 @@ Changes with verion 3.3 include:
 Known issues:
  * Android Studio
     - After updating to the new v3.3 Android Studio project folder, if you get error messages indicating "InvalidVirtualFileAccessException" then you might need to do a File->Invalidate Caches / Restart to clear the error.
-<<<<<<< HEAD
-
-=======
->>>>>>> 5888d9537825e6b41e47502a3cd4fc064254a132
  * OnBot Java
     - Sometimes when you push the build button to build all op modes, the RC returns an error message that the build failed.  If you press the build button a second time, the build typically suceeds.
     
