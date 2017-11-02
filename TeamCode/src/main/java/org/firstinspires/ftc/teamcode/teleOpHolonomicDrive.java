@@ -73,9 +73,9 @@ public class teleOpHolonomicDrive extends OpMode {
 
         // holonomic formulas
 
-        double FrontLeft = -gamepad1LeftY - gamepad1LeftX - gamepad1RightX;
+        double FrontLeft = -gamepad1LeftY + gamepad1LeftX - gamepad1RightX;
         double FrontRight = gamepad1LeftY - gamepad1LeftX - gamepad1RightX;
-        double BackRight = gamepad1LeftY + gamepad1LeftX - gamepad1RightX;
+        double BackRight = gamepad1LeftY - gamepad1LeftX - gamepad1RightX;
         double BackLeft = -gamepad1LeftY + gamepad1LeftX - gamepad1RightX;
 
         //double speed setting, don't know if works

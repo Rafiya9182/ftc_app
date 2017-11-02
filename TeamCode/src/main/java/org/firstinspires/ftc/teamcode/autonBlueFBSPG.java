@@ -1,8 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -12,21 +10,21 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  *  that performs the actual movement.
  */
 
-@Autonomous(name="AutoRedClose", group="Autonomous")
+@Autonomous(name="AutoBlueFar", group="Autonomous")
 //@Disabled
-public class autonRedCBSPG extends LinearOpMode {
+public class autonBlueFBSPG extends LinearOpMode {
 
     /* Declare OpMode members. */
     robotHardware   robot   = new robotHardware();   // Use a Pushbot's hardware
 
     private ElapsedTime     runtime = new ElapsedTime();
 
-    static final double     COUNTS_PER_MOTOR_REV    = 1120 ;    // eg: TETRIX Motor Encoder
+    static final double     COUNTS_PER_MOTOR_REV    = 1440 ;    // eg: TETRIX Motor Encoder
     static final double     DRIVE_GEAR_REDUCTION    = 2.0 ;     // This is < 1.0 if geared UP
     static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * 3.1415);
-    static final double     DRIVE_SPEED             = 0.5;
+    static final double     DRIVE_SPEED             = 0.6;
     static final double     LIFT_SPEED             = 0.2;
 
     static final double     SERVO_POSITION          = .2;
@@ -74,8 +72,6 @@ public class autonRedCBSPG extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
-
-        //setting servos to glyph size
         robot.servo.setPosition(SERVO_START2);
         robot.servo2.setPosition(SERVO_START);
 
@@ -89,13 +85,12 @@ public class autonRedCBSPG extends LinearOpMode {
         sleep(1000);// pause for servos to move
 
 
+
         //driving from CBS (close balancing stone) to cryptobox, robot front facing wall
         //X: (-, +) = left; (+, -) = right
         //Y: (-, +) = backward; (+, -) = forward
-
-        encoderXDrive(DRIVE_SPEED, -14, 14, 7.0); // continues left to front of cryptobox, fiddle with
+        encoderYDrive(DRIVE_SPEED, -18, 18, 7.0); // continues right to front og cryptobox
         sleep(500);
-        encoderYDrive(DRIVE_SPEED, -6, 6, 7.0); //forward to put glyph in
 
         robot.servo.setPosition(SERVO_START2);
         robot.servo2.setPosition(SERVO_START);
@@ -263,9 +258,13 @@ public class autonRedCBSPG extends LinearOpMode {
             //  sleep(250);   // optional pause after each move
         }
     }
+    public void encoderTurnDrive(double speedTurn,
+                                 double Inches){
+
+    }
     public void encoderLiftDrive(double speed,
-                              double Inches,
-                              double timeoutS) {
+                                 double Inches,
+                                 double timeoutS) {
         int newTarget;
 
 

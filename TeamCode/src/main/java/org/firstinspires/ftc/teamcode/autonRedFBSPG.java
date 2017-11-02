@@ -1,8 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -12,9 +10,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  *  that performs the actual movement.
  */
 
-@Autonomous(name="AutoRedClose", group="Autonomous")
+@Autonomous(name="AutoRedFar", group="Autonomous")
 //@Disabled
-public class autonRedCBSPG extends LinearOpMode {
+public class autonRedFBSPG extends LinearOpMode {
 
     /* Declare OpMode members. */
     robotHardware   robot   = new robotHardware();   // Use a Pushbot's hardware
@@ -34,6 +32,7 @@ public class autonRedCBSPG extends LinearOpMode {
 
     static final double     SERVO_START          = .5;
     static final double     SERVO_START2          = .5;
+
 
 
     ElapsedTime timer = new ElapsedTime();
@@ -74,7 +73,6 @@ public class autonRedCBSPG extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
-
         //setting servos to glyph size
         robot.servo.setPosition(SERVO_START2);
         robot.servo2.setPosition(SERVO_START);
@@ -92,10 +90,8 @@ public class autonRedCBSPG extends LinearOpMode {
         //driving from CBS (close balancing stone) to cryptobox, robot front facing wall
         //X: (-, +) = left; (+, -) = right
         //Y: (-, +) = backward; (+, -) = forward
-
-        encoderXDrive(DRIVE_SPEED, -14, 14, 7.0); // continues left to front of cryptobox, fiddle with
+        encoderYDrive(DRIVE_SPEED, 18, -18, 7.0); // continues left to front of cryptobox
         sleep(500);
-        encoderYDrive(DRIVE_SPEED, -6, 6, 7.0); //forward to put glyph in
 
         robot.servo.setPosition(SERVO_START2);
         robot.servo2.setPosition(SERVO_START);
@@ -264,8 +260,8 @@ public class autonRedCBSPG extends LinearOpMode {
         }
     }
     public void encoderLiftDrive(double speed,
-                              double Inches,
-                              double timeoutS) {
+                                 double Inches,
+                                 double timeoutS) {
         int newTarget;
 
 
