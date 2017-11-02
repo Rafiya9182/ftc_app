@@ -9,8 +9,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 
-
-
 @TeleOp(name="Driver", group = "TeleOp")
 @Disabled
 public class driverPeriod extends OpMode {
@@ -43,9 +41,9 @@ public class driverPeriod extends OpMode {
     public void init() {
         controllerFR = hardwareMap.dcMotorController.get("controller1");
         controllerI = hardwareMap.dcMotorController.get("controller2");
-        controllerI.setMotorMode(motorShooter,DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        controllerI.setMotorMode(motorShooter, DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        controllerI.setMotorMode(motorShooter,DcMotor.RunMode.RUN_USING_ENCODER);
+        controllerI.setMotorMode(motorShooter, DcMotor.RunMode.RUN_USING_ENCODER);
 
        /*limit = hardwareMap.digitalChannel.get("limit");
        limit1 = hardwareMap.digitalChannel.get("limit1");*/
@@ -112,7 +110,7 @@ public class driverPeriod extends OpMode {
                }*/
             }
             controllerI.setMotorPower(motorShooter, 0.0);
-            controllerI.setMotorMode(motorShooter,DcMotor.RunMode.RUN_USING_ENCODER);
+            controllerI.setMotorMode(motorShooter, DcMotor.RunMode.RUN_USING_ENCODER);
         }
         else if(gamepad2.dpad_down)
         {

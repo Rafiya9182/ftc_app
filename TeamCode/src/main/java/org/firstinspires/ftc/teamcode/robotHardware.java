@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -25,14 +24,14 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class robotHardware
 {
     /* Public OpMode members. */
-    public DcMotor  motorFrontRight   = null;
-    public DcMotor  motorFrontLeft  = null;
-    public DcMotor  motorBackRight   = null;
-    public DcMotor  motorBackLeft  = null;
-    public DcMotor  motorLift = null;
-    public Servo    servo = null;
-    public Servo    servo2 = null;
-    public Servo    servoColor = null;
+    public DcMotor motorFrontRight   = null;
+    public DcMotor motorFrontLeft  = null;
+    public DcMotor motorBackRight   = null;
+    public DcMotor motorBackLeft  = null;
+    public DcMotor motorLift = null;
+    public Servo servo = null;
+    public Servo servo2 = null;
+    public Servo servoColor = null;
 
     public int[]    colors = null;
 

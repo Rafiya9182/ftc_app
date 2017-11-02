@@ -7,11 +7,10 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 
 /* created by Keran 10/03/17
  *  The code is written using a method called: encoderDrive(speed, leftInches, rightInches, timeoutS)
@@ -22,9 +21,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 public class autonVuforia extends LinearOpMode {
 
     /* Declare OpMode members. */
-    robotHardware   robot   = new robotHardware();   // Use a Pushbot's hardware
+    robotHardware robot   = new robotHardware();   // Use a Pushbot's hardware
 
-    private ElapsedTime     runtime = new ElapsedTime();
+    private ElapsedTime runtime = new ElapsedTime();
 
     static final double     COUNTS_PER_MOTOR_REV    = 1440 ;    // eg: TETRIX Motor Encoder
     static final double     DRIVE_GEAR_REDUCTION    = 2.0 ;     // This is < 1.0 if geared UP

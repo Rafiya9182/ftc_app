@@ -17,7 +17,7 @@ public class autonBlueCBSPG extends LinearOpMode {
     /* Declare OpMode members. */
     robotHardware   robot   = new robotHardware();   // Use a Pushbot's hardware
 
-    private ElapsedTime     runtime = new ElapsedTime();
+    private ElapsedTime runtime = new ElapsedTime();
 
     static final double     COUNTS_PER_MOTOR_REV    = 1440 ;    // eg: TETRIX Motor Encoder
     static final double     DRIVE_GEAR_REDUCTION    = 2.0 ;     // This is < 1.0 if geared UP
