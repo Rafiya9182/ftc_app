@@ -87,14 +87,14 @@ public class autonVuforia extends LinearOpMode {
         encoderYDrive(DRIVE_SPEED,   -12, 12, 7.0);
 
         if (vuMark != RelicRecoveryVuMark.LEFT){
-            encoderXDrive(DRIVE_SPEED, 12, 12,5.0);
+            encoderXDrive(DRIVE_SPEED, 12, 12, 5.0);
         }
         else if(vuMark != RelicRecoveryVuMark.CENTER){
-            encoderXDrive(DRIVE_SPEED, 12, 12,5.0);
+            encoderXDrive(DRIVE_SPEED, 12, 12, 5.0);
 
         }
         else if(vuMark != RelicRecoveryVuMark.RIGHT){
-            encoderXDrive(DRIVE_SPEED, 12, 12,5.0);
+            encoderXDrive(DRIVE_SPEED, 12, 12, 5.0);
         }
 
 
