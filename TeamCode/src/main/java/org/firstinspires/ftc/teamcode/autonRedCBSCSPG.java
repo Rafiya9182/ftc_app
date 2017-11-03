@@ -14,7 +14,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 @Autonomous(name="AutoColor", group="Autonomous")
 @Disabled
-public class autonTestColorSensor extends LinearOpMode {
+public class autonRedCBSCSPG extends LinearOpMode {
 
     /* Declare OpMode members. */
     robotHardware   robot   = new robotHardware();   // Use a Pushbot's hardware
@@ -29,6 +29,15 @@ public class autonTestColorSensor extends LinearOpMode {
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * 3.1415);
     static final double     DRIVE_SPEED             = 0.6;
+    static final double     TURN_SPEED             = 0.3;
+
+    static final double     LIFT_SPEED             = 0.2;
+
+    static final double     SERVO_POSITION          = .2;
+    static final double     SERVO_POSITION2          = .8;
+
+    static final double     SERVO_START          = .5;
+    static final double     SERVO_START2          = .5;
 
     @Override
     public void runOpMode() {
@@ -67,29 +76,59 @@ public class autonTestColorSensor extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
-        // Step through each leg of the path,
-        // Note: Reverse movement is obtained by setting a negative distance (not speed)
-        encoderXDrive(DRIVE_SPEED,  -12,  12, 7.0);  // S1: Forward 47 Inches with 5 Sec timeout
-        encoderYDrive(DRIVE_SPEED,   -12, 12, 7.0);  // S2: Turn Right 12 Inches with 4 Sec timeout
+        //setting servos to glyph size
+        robot.servo.setPosition(SERVO_START2);
+        robot.servo2.setPosition(SERVO_START);
 
+        encoderLiftDrive(LIFT_SPEED, -2, 2.0 );
 
-        //set servo
-        robot.servo.setPosition(0.0);            // S4: Stop and close the claw.
-        sleep(1000);     // pause for servos to move
+        robot.servo.setPosition(SERVO_POSITION2);
+        robot.servo2.setPosition(SERVO_POSITION);
+
+        encoderLiftDrive(LIFT_SPEED, 2, 2.0 );
+
+        sleep(1000);// pause for servos to move
 
 
         //color sensor sode for jewels
         runtime.reset();
-        while(runtime.seconds() < 7 && opModeIsActive()) {
+        while(runtime.seconds() < 5 && opModeIsActive()) {
             colors = colorSensor();
             telemetry.addData("red", colors[0]);
             telemetry.addData("blue", colors[1]);
             telemetry.update();
             if (colors[1] > colors[0]) {
-                sleep(5000);
-                encoderXDrive(DRIVE_SPEED, .3, .3, 5);
+                sleep(500);
+                encoderXDrive(DRIVE_SPEED, 2, -2, 5);
+            } else {
+                sleep(500);
+                encoderXDrive(DRIVE_SPEED, -2, 2, 5);
             }
+
+
             sleep(2000);
+
+
+            //driving from CBS (close balancing stone) to cryptobox, robot front facing wall
+            //X: (-, +) = left; (+, -) = right
+            //Y: (-, +) = backward; (+, -) = forward
+
+            encoderXDrive(TURN_SPEED, 6, 6, 12.0); //spin 180 degrees to get lift in front
+
+            sleep(500);
+
+            encoderXDrive(DRIVE_SPEED, -14, 14, 7.0); // continues left to front of cryptobox, fiddle with
+            sleep(500);
+            encoderYDrive(DRIVE_SPEED, -6, 6, 7.0); //forward to put glyph in
+
+            robot.servo.setPosition(SERVO_START2);
+            robot.servo2.setPosition(SERVO_START);
+            encoderYDrive(DRIVE_SPEED, 2, -2, 7.0);
+
+            sleep(1000);     // pause for servos to move
+
+            telemetry.addData("Path", "Complete");
+            telemetry.update();
         }
 
         telemetry.addData("Path", "Complete");
@@ -252,6 +291,47 @@ public class autonTestColorSensor extends LinearOpMode {
             //  sleep(250);   // optional pause after each move
         }
     }
+    public void encoderLiftDrive(double speed,
+                                 double Inches,
+                                 double timeoutS) {
+        int newTarget;
+
+
+        // Ensure that the opmode is still active
+        if (opModeIsActive()) {
+
+            // Determine new target position, and pass to motor controller
+            newTarget = robot.motorLift.getCurrentPosition() + (int)(Inches * COUNTS_PER_INCH);
+
+            robot.motorLift.setTargetPosition(newTarget);
+
+            // Turn On RUN_TO_POSITION
+            robot.motorLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            // reset the timeout time and start motion.
+            runtime.reset();
+
+            robot.motorLift.setPower(Math.abs(speed));
+
+            // keep looping while we are still active, and there is time left, and both motors are running.
+            // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
+            // its target position, the motion will stop.  This is "safer" in the event that the robot will
+            // always end the motion as soon as possible.
+            // However, if you require that BOTH motors have finished their moves before the robot continues
+            // onto the next step, use (isBusy() || isBusy()) in the loop test.
+            while (opModeIsActive() &&
+                    (runtime.seconds() < timeoutS) &&
+                    (robot.motorLift.isBusy() )) {
+            }
+            // Stop all motion;
+            robot.motorLift.setPower(0);
+
+            // Turn off RUN_TO_POSITION
+            robot.motorLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        }
+    }
+
     public int[] colorSensor () {
         int[] ret = new int[2];
 
