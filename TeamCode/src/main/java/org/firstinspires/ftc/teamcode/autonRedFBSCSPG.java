@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -10,21 +11,25 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  *  that performs the actual movement.
  */
 
-@Autonomous(name="AutoBlueClose", group="Blue")
+@Autonomous(name="ColorFar", group="Red")
 //@Disabled
-public class autonBlueCBSPG extends LinearOpMode {
+public class autonRedFBSCSPG extends LinearOpMode {
 
     /* Declare OpMode members. */
-    robotHardware   robot   = new robotHardware();   // Use a Pushbot's hardware
+    robotHardware robot   = new robotHardware();   // Use a Pushbot's hardware
 
     private ElapsedTime runtime = new ElapsedTime();
+    int[] colors;
+    ColorSensor colorSensor;
 
-    static final double     COUNTS_PER_MOTOR_REV    = 1440 ;    // eg: TETRIX Motor Encoder
+    static final double     COUNTS_PER_MOTOR_REV    = 1120 ;    // eg: TETRIX Motor Encoder
     static final double     DRIVE_GEAR_REDUCTION    = 2.0 ;     // This is < 1.0 if geared UP
     static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * 3.1415);
-    static final double     DRIVE_SPEED             = 0.6;
+    static final double     DRIVE_SPEED             = 0.5;
+    static final double     TURN_SPEED             = 0.3;
+
     static final double     LIFT_SPEED             = 0.2;
 
     static final double     SERVO_POSITION          = .2;
@@ -84,22 +89,49 @@ public class autonBlueCBSPG extends LinearOpMode {
 
         encoderLiftDrive(LIFT_SPEED, 2, 2.0 );
 
+        robot.servoColor.setPosition(1);
         sleep(1000);// pause for servos to move
+
+
+        //color sensor sode for jewels
+        runtime.reset();
+        while(runtime.seconds() < 5 && opModeIsActive()) {
+            colors = colorSensor();
+            telemetry.addData("red", colors[0]);
+            telemetry.addData("blue", colors[1]);
+            telemetry.update();
+            if (colors[1] > colors[0]) {
+                sleep(500);
+                encoderXDrive(DRIVE_SPEED, 2, 2, 5);
+                robot.servoColor.setPosition(0);
+                encoderXDrive(DRIVE_SPEED, -2, -2, 5);
+
+            } else {
+                sleep(500);
+                encoderXDrive(DRIVE_SPEED, -2, -2, 5);
+                robot.servoColor.setPosition(0);
+                encoderXDrive(DRIVE_SPEED, 2, 2, 5);
+
+            }
+        }
+        sleep(1000);
 
 
         //driving from CBS (close balancing stone) to cryptobox, robot front facing wall
         //X: (-, +) = left; (+, -) = right
         //Y: (-, +) = backward; (+, -) = forward
-        encoderXDrive(DRIVE_SPEED, 14, -14, 7.0); // continues right to front of cryptobox, fiddle with
+        encoderXDrive(TURN_SPEED, 12, 12, 12.0); //spin 180 degrees to get lift in front
         sleep(500);
-        encoderYDrive(DRIVE_SPEED, -6, 6, 7.0); //forward to put glyph in
-        //encoderYDrive(DRIVE_SPEED,   -12, 12, 7.0);  // goes back
+        encoderYDrive(DRIVE_SPEED, 18, -18, 7.0); // continues left to front of cryptobox
+        sleep(500);
 
         robot.servo.setPosition(SERVO_START2);
         robot.servo2.setPosition(SERVO_START);
+        sleep(500);
+
         encoderYDrive(DRIVE_SPEED, 2, -2, 7.0);
 
-
+        sleep(1000);     // pause for servos to move
 
         telemetry.addData("Path", "Complete");
         telemetry.update();
@@ -301,6 +333,20 @@ public class autonBlueCBSPG extends LinearOpMode {
 
         }
     }
+    public int[] colorSensor () {
+        int[] ret = new int[2];
+
+        while (opModeIsActive()) {
+            telemetry.addData("Red  ", colorSensor.red());
+            telemetry.addData("Blue ", colorSensor.blue());
+            ret[0] = colorSensor.red();
+            ret[1] = colorSensor.blue();
+            telemetry.update();
+            break;
+        }
+        return ret;
+    }
+
 
 
 }

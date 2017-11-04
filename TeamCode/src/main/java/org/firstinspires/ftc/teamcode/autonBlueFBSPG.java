@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  *  that performs the actual movement.
  */
 
-@Autonomous(name="AutoBlueFar", group="Autonomous")
+@Autonomous(name="AutoBlueFar", group="Blue")
 //@Disabled
 public class autonBlueFBSPG extends LinearOpMode {
 

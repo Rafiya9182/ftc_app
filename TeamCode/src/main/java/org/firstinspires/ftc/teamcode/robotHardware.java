@@ -61,7 +61,7 @@ public class robotHardware
         motorLift   =   hwMap.get(DcMotor.class, "nu");
         servo   =   hwMap.get(Servo.class, "servo");
         servo2  =   hwMap.get(Servo.class, "servo2");
-        //servoColor  =   hwMap.get(Servo.class, "servo color");
+        servoColor  =   hwMap.get(Servo.class, "servo color");
 
         motorFrontRight.setDirection(DcMotor.Direction.REVERSE);
         motorFrontLeft.setDirection(DcMotor.Direction.REVERSE);
@@ -76,7 +76,7 @@ public class robotHardware
         motorFrontLeft.setPower(0);
         motorBackRight.setPower(0);
         motorBackLeft.setPower(0);
-        //motorLift.setPower(0);
+        motorLift.setPower(0);
 
 
         // Set all motors to run without encoders.
@@ -91,7 +91,7 @@ public class robotHardware
         motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        //motorLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // Define and initialize ALL installed servos.
 

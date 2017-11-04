@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  *  that performs the actual movement.
  */
 
-@Autonomous(name="AutoColor", group="Autonomous")
+@Autonomous(name="ColorClose", group="Red")
 @Disabled
 public class autonRedCBSCSPG extends LinearOpMode {
 
@@ -87,6 +87,7 @@ public class autonRedCBSCSPG extends LinearOpMode {
 
         encoderLiftDrive(LIFT_SPEED, 2, 2.0 );
 
+        robot.servoColor.setPosition(1);
         sleep(1000);// pause for servos to move
 
 
@@ -99,30 +100,39 @@ public class autonRedCBSCSPG extends LinearOpMode {
             telemetry.update();
             if (colors[1] > colors[0]) {
                 sleep(500);
-                encoderXDrive(DRIVE_SPEED, 2, -2, 5);
+                encoderXDrive(DRIVE_SPEED, 2, 2, 5);
+                robot.servoColor.setPosition(0);
+                encoderXDrive(DRIVE_SPEED, -2, -2, 5);
+
             } else {
                 sleep(500);
-                encoderXDrive(DRIVE_SPEED, -2, 2, 5);
+                encoderXDrive(DRIVE_SPEED, -2, -2, 5);
+                robot.servoColor.setPosition(0);
+                encoderXDrive(DRIVE_SPEED, 2, 2, 5);
+
             }
-
-
-            sleep(2000);
+        }
+            sleep(1000);
 
 
             //driving from CBS (close balancing stone) to cryptobox, robot front facing wall
             //X: (-, +) = left; (+, -) = right
             //Y: (-, +) = backward; (+, -) = forward
-
-            encoderXDrive(TURN_SPEED, 6, 6, 12.0); //spin 180 degrees to get lift in front
-
+            encoderXDrive(TURN_SPEED, 12, 12, 12.0); //spin 180 degrees to get lift in front
             sleep(500);
-
             encoderXDrive(DRIVE_SPEED, -14, 14, 7.0); // continues left to front of cryptobox, fiddle with
             sleep(500);
-            encoderYDrive(DRIVE_SPEED, -6, 6, 7.0); //forward to put glyph in
+            encoderYDrive(DRIVE_SPEED, -5, 5, 7.0); //forward to put glyph in
 
+            sleep(500);
+
+            //let go off glyph
             robot.servo.setPosition(SERVO_START2);
             robot.servo2.setPosition(SERVO_START);
+            sleep(500);
+
+
+        //drive bavk a little to avoid robot contact with glyph
             encoderYDrive(DRIVE_SPEED, 2, -2, 7.0);
 
             sleep(1000);     // pause for servos to move
@@ -131,9 +141,6 @@ public class autonRedCBSCSPG extends LinearOpMode {
             telemetry.update();
         }
 
-        telemetry.addData("Path", "Complete");
-        telemetry.update();
-    }
 
     /*
      *  Method to perfmorm a relative move, based on encoder counts.

@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  *  that performs the actual movement.
  */
 
-@Autonomous(name="AutoColor", group="Autonomous")
+@Autonomous(name="ColorClose", group="Blue")
 @Disabled
 public class autonBlueCBSCSPG extends LinearOpMode {
 
@@ -76,21 +76,26 @@ public class autonBlueCBSCSPG extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
-        //setting servos to glyph size
+        //setting servos to start position
         robot.servo.setPosition(SERVO_START2);
         robot.servo2.setPosition(SERVO_START);
 
+        //lift goes down
         encoderLiftDrive(LIFT_SPEED, -2, 2.0 );
 
+        //grabbing glyph
         robot.servo.setPosition(SERVO_POSITION2);
         robot.servo2.setPosition(SERVO_POSITION);
 
+        //lift goes up
         encoderLiftDrive(LIFT_SPEED, 2, 2.0 );
 
+        //put down color sensor arm
+        robot.servoColor.setPosition(1);
         sleep(1000);// pause for servos to move
 
 
-        //color sensor sode for jewels
+        //color sensor code for jewels
         runtime.reset();
         while (runtime.seconds() < 5 && opModeIsActive()) {
             colors = colorSensor();
@@ -99,26 +104,38 @@ public class autonBlueCBSCSPG extends LinearOpMode {
             telemetry.update();
             if (colors[1] > colors[0]) {
                 sleep(500);
-                encoderXDrive(DRIVE_SPEED, 2, -2, 5);
+                encoderXDrive(DRIVE_SPEED, 2, 2, 5);
+                robot.servoColor.setPosition(0);
+                encoderXDrive(DRIVE_SPEED, -2, -2, 5);
+
             } else {
-                sleep(500);
-                encoderXDrive(DRIVE_SPEED, -2, 2, 5);
+                encoderXDrive(DRIVE_SPEED, -2, -2, 5);
+                robot.servoColor.setPosition(0);
+                encoderXDrive(DRIVE_SPEED, 2, 2, 5);
+
             }
         }
+
+        sleep(1000);
 
         //driving from CBS (close balancing stone) to cryptobox, robot front facing wall
         //X: (-, +) = left; (+, -) = right
         //Y: (-, +) = backward; (+, -) = forward
+        encoderXDrive(TURN_SPEED, 12, 12, 7.0); //turn 180 to get gltph in front
+        sleep(500);
         encoderXDrive(DRIVE_SPEED, 14, -14, 7.0); // continues right to front of cryptobox, fiddle with
         sleep(500);
-        encoderYDrive(DRIVE_SPEED, -6, 6, 7.0); //forward to put glyph in
-        //encoderYDrive(DRIVE_SPEED,   -12, 12, 7.0);  // goes back
+        encoderYDrive(DRIVE_SPEED, -5, 5, 7.0); //forward to put glyph in
 
+        sleep(500);
+
+        //let go of glyph
         robot.servo.setPosition(SERVO_START2);
         robot.servo2.setPosition(SERVO_START);
+        sleep(500);
+
+        //drive back to avoid contact with glyph
         encoderYDrive(DRIVE_SPEED, 2, -2, 7.0);
-
-
 
         telemetry.addData("Path", "Complete");
         telemetry.update();
