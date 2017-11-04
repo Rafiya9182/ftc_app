@@ -12,8 +12,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  *  that performs the actual movement.
  */
 
-@Autonomous(name="ColorClose", group="Blue")
-@Disabled
+@Autonomous(name="ColorBClose", group="Blue")
+//@Disabled
 public class autonBlueCBSCSPG extends LinearOpMode {
 
     /* Declare OpMode members. */
@@ -121,9 +121,9 @@ public class autonBlueCBSCSPG extends LinearOpMode {
         //driving from CBS (close balancing stone) to cryptobox, robot front facing wall
         //X: (-, +) = left; (+, -) = right
         //Y: (-, +) = backward; (+, -) = forward
-        encoderXDrive(TURN_SPEED, 12, 12, 7.0); //turn 180 to get gltph in front
+        encoderYDrive(DRIVE_SPEED, 14, -14, 7.0); // continues right to front of cryptobox, fiddle with
         sleep(500);
-        encoderXDrive(DRIVE_SPEED, 14, -14, 7.0); // continues right to front of cryptobox, fiddle with
+        encoderXDrive(TURN_SPEED, 6, 6, 7.0); //turn 180 to get glyph in front
         sleep(500);
         encoderYDrive(DRIVE_SPEED, -5, 5, 7.0); //forward to put glyph in
 

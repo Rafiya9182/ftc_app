@@ -17,9 +17,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
  *  The code is written using a method called: encoderDrive(speed, leftInches, rightInches, timeoutS)
  */
 
-@Autonomous(name="CloseVuforia", group="Red")
+@Autonomous(name="CloseRVuforia", group="Red")
 @Disabled
-public class autonVuforia extends LinearOpMode {
+public class autonRedCBSCSPGV extends LinearOpMode {
 
     /* Declare OpMode members. */
     robotHardware robot   = new robotHardware();   // Use a Pushbot's hardware
@@ -131,21 +131,21 @@ public class autonVuforia extends LinearOpMode {
         }
         sleep(1000);
 
-        encoderXDrive(TURN_SPEED, 12, 12, 12.0); //spin 180 degrees to get lift in front
-        sleep(500);
+
 
         if (vuMark != RelicRecoveryVuMark.LEFT){
-            encoderXDrive(DRIVE_SPEED, -16, 16, 7.0); // continues left to front of cryptobox, fiddle with
+            encoderYDrive(DRIVE_SPEED, -16, 16, 7.0); // continues left to front of cryptobox, fiddle with
 
         }
         else if(vuMark != RelicRecoveryVuMark.CENTER){
-            encoderXDrive(DRIVE_SPEED, -14, 14, 7.0); // continues left to front of cryptobox, fiddle with
+            encoderYDrive(DRIVE_SPEED, -14, 14, 7.0); // continues left to front of cryptobox, fiddle with
 
         }
         else if(vuMark != RelicRecoveryVuMark.RIGHT){
-            encoderXDrive(DRIVE_SPEED, -12, 12, 7.0); // continues left to front of cryptobox, fiddle with
+            encoderYDrive(DRIVE_SPEED, -12, 12, 7.0); // continues left to front of cryptobox, fiddle with
         }
 
+        encoderXDrive(TURN_SPEED, 6, 6, 12.0); //spin 180 degrees to get lift in front
         sleep(500);
         encoderYDrive(DRIVE_SPEED, -5, 5, 7.0); //forward to put glyph in
         sleep(500);

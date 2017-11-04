@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  *  that performs the actual movement.
  */
 
-@Autonomous(name="ColorFar", group="Red")
+@Autonomous(name="ColorRFar", group="Red")
 //@Disabled
 public class autonRedFBSCSPG extends LinearOpMode {
 
@@ -120,8 +120,6 @@ public class autonRedFBSCSPG extends LinearOpMode {
         //driving from CBS (close balancing stone) to cryptobox, robot front facing wall
         //X: (-, +) = left; (+, -) = right
         //Y: (-, +) = backward; (+, -) = forward
-        encoderXDrive(TURN_SPEED, 12, 12, 12.0); //spin 180 degrees to get lift in front
-        sleep(500);
         encoderYDrive(DRIVE_SPEED, 18, -18, 7.0); // continues left to front of cryptobox
         sleep(500);
 
