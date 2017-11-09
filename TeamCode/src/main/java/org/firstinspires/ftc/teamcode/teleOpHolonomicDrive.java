@@ -63,15 +63,15 @@ public class teleOpHolonomicDrive extends OpMode {
         // right stick X controls rotation
 
         double gamepad1LeftY = -gamepad1.left_stick_y;
-        double gamepad1LeftX = gamepad1.left_stick_x;
-        double gamepad1RightX = gamepad1.right_stick_x;
+        double gamepad1LeftX = -gamepad1.left_stick_x;
+        double gamepad1RightX = -gamepad1.right_stick_x;
 
 
         // holonomic formulas
 
-        double FrontLeft = -gamepad1LeftY + gamepad1LeftX - gamepad1RightX;
+        double FrontLeft = -gamepad1LeftY - gamepad1LeftX - gamepad1RightX;
         double FrontRight = gamepad1LeftY - gamepad1LeftX - gamepad1RightX;
-        double BackRight = gamepad1LeftY - gamepad1LeftX - gamepad1RightX;
+        double BackRight = gamepad1LeftY + gamepad1LeftX - gamepad1RightX;
         double BackLeft = -gamepad1LeftY + gamepad1LeftX - gamepad1RightX;
 
         //double speed setting, don't know if works
@@ -91,6 +91,7 @@ public class teleOpHolonomicDrive extends OpMode {
             BackRight = Range.clip(BackRight, -1, 1);
         }
 
+
         //write the values to the motors
         FrontRight = scaleInput(FrontRight);
         FrontLeft = scaleInput(FrontLeft);
@@ -108,7 +109,10 @@ public class teleOpHolonomicDrive extends OpMode {
         if (gamepad2.a) {
             robot.servo.setPosition(1.0);
             robot.servo2.setPosition(0.0);
-        }  else {
+        }  else if (gamepad2.x){
+            robot.servo.setPosition(.7);
+            robot.servo2.setPosition(.3);
+        } else {
             robot.servo.setPosition(.5);
             robot.servo2.setPosition(.5);
         }
@@ -116,7 +120,15 @@ public class teleOpHolonomicDrive extends OpMode {
 
         //lift code for gradual ascent and descent
         double liftPower = -gamepad2.left_stick_y;
-        liftPower = Range.clip(liftPower, -.25, .25);
+
+        if (gamepad2.right_trigger > 0.2){
+            liftPower = Range.clip(liftPower, -.25, .25);
+
+        } else {
+
+            liftPower = Range.clip(liftPower, -.5, .5);
+        }
+
         robot.motorLift.setPower(liftPower);
 
 

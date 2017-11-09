@@ -365,15 +365,16 @@ public class autonRedCBSCSPGV extends LinearOpMode {
         int[] ret = new int[2];
 
         while (opModeIsActive()) {
-            telemetry.addData("Red  ", colorSensor.red());
-            telemetry.addData("Blue ", colorSensor.blue());
-            ret[0] = colorSensor.red();
-            ret[1] = colorSensor.blue();
+            telemetry.addData("Red  ", robot.colorSensor.red());
+            telemetry.addData("Blue ", robot.colorSensor.blue());
+            ret[0] = robot.colorSensor.red();
+            ret[1] = robot.colorSensor.blue();
             telemetry.update();
             break;
         }
         return ret;
     }
+
 
 
 }

@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -21,8 +22,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Servo channel:  Servo to open left claw:  "left_hand"
  * Servo channel:  Servo to open right claw: "right_hand"
  */
-public class robotHardware
-{
+public class robotHardware {
     /* Public OpMode members. */
     public DcMotor motorFrontRight   = null;
     public DcMotor motorFrontLeft  = null;
@@ -32,6 +32,7 @@ public class robotHardware
     public Servo servo = null;
     public Servo servo2 = null;
     public Servo servoColor = null;
+    public ColorSensor  colorSensor;
 
     public int[]    colors = null;
 
@@ -61,7 +62,8 @@ public class robotHardware
         motorLift   =   hwMap.get(DcMotor.class, "nu");
         servo   =   hwMap.get(Servo.class, "servo");
         servo2  =   hwMap.get(Servo.class, "servo2");
-        servoColor  =   hwMap.get(Servo.class, "servo color");
+        servoColor  =   hwMap.get(Servo.class, "servocolor");
+        colorSensor =   hwMap.get(ColorSensor.class, "color");
 
         motorFrontRight.setDirection(DcMotor.Direction.REVERSE);
         motorFrontLeft.setDirection(DcMotor.Direction.REVERSE);

@@ -21,7 +21,6 @@ public class autonBlueCBSCSPG extends LinearOpMode {
 
     private ElapsedTime runtime = new ElapsedTime();
     int[] colors;
-    ColorSensor colorSensor;
 
     static final double     COUNTS_PER_MOTOR_REV    = 1440 ;    // eg: TETRIX Motor Encoder
     static final double     DRIVE_GEAR_REDUCTION    = 2.0 ;     // This is < 1.0 if geared UP
@@ -47,7 +46,6 @@ public class autonBlueCBSCSPG extends LinearOpMode {
          * The init() method of the hardware class does all the work here
          */
         robot.init(hardwareMap);
-        colorSensor = hardwareMap.colorSensor.get("color");
 
 
         // Send telemetry message to signify robot waiting;
@@ -81,17 +79,17 @@ public class autonBlueCBSCSPG extends LinearOpMode {
         robot.servo2.setPosition(SERVO_START);
 
         //lift goes down
-        encoderLiftDrive(LIFT_SPEED, -2, 2.0 );
+        encoderLiftDrive(LIFT_SPEED, -3, 2.0 );
 
         //grabbing glyph
         robot.servo.setPosition(SERVO_POSITION2);
         robot.servo2.setPosition(SERVO_POSITION);
 
         //lift goes up
-        encoderLiftDrive(LIFT_SPEED, 2, 2.0 );
+        encoderLiftDrive(LIFT_SPEED, 5, 2.0 );
 
         //put down color sensor arm
-        robot.servoColor.setPosition(1);
+        robot.servoColor.setPosition(.85);
         sleep(1000);// pause for servos to move
 
 
@@ -102,28 +100,29 @@ public class autonBlueCBSCSPG extends LinearOpMode {
             telemetry.addData("red", colors[0]);
             telemetry.addData("blue", colors[1]);
             telemetry.update();
-            if (colors[1] > colors[0]) {
+            if (colors[0] > colors[1]) {
                 sleep(500);
                 encoderXDrive(DRIVE_SPEED, 2, 2, 5);
-                robot.servoColor.setPosition(0);
+                robot.servoColor.setPosition(.2);
                 encoderXDrive(DRIVE_SPEED, -2, -2, 5);
+                break;
 
-            } else {
+            } else if (colors[0] < colors[1]){
                 encoderXDrive(DRIVE_SPEED, -2, -2, 5);
-                robot.servoColor.setPosition(0);
+                robot.servoColor.setPosition(.2);
                 encoderXDrive(DRIVE_SPEED, 2, 2, 5);
-
+                break;
             }
         }
 
         sleep(1000);
 
         //driving from CBS (close balancing stone) to cryptobox, robot front facing wall
-        //X: (-, +) = left; (+, -) = right
+        //X: (+, -) = left; (-, +) = right
         //Y: (-, +) = backward; (+, -) = forward
-        encoderYDrive(DRIVE_SPEED, 14, -14, 7.0); // continues right to front of cryptobox, fiddle with
+        encoderYDrive(DRIVE_SPEED, -9.5, 9.5, 7.0); // continues forward to front of cryptobox, fiddle with
         sleep(500);
-        encoderXDrive(TURN_SPEED, 6, 6, 7.0); //turn 180 to get glyph in front
+        encoderXDrive(TURN_SPEED, -6, -6, 7.0); //turn 180 to get glyph in front
         sleep(500);
         encoderYDrive(DRIVE_SPEED, -5, 5, 7.0); //forward to put glyph in
 
@@ -342,15 +341,16 @@ public class autonBlueCBSCSPG extends LinearOpMode {
         int[] ret = new int[2];
 
         while (opModeIsActive()) {
-            telemetry.addData("Red  ", colorSensor.red());
-            telemetry.addData("Blue ", colorSensor.blue());
-            ret[0] = colorSensor.red();
-            ret[1] = colorSensor.blue();
+            telemetry.addData("Red  ", robot.colorSensor.red());
+            telemetry.addData("Blue ", robot.colorSensor.blue());
+            ret[0] = robot.colorSensor.red();
+            ret[1] = robot.colorSensor.blue();
             telemetry.update();
             break;
         }
         return ret;
     }
+
 
 
 
