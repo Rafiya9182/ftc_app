@@ -110,7 +110,7 @@ public class autonRedCBSCSPGV extends LinearOpMode {
 
         //color sensor sode for jewels
         runtime.reset();
-        while(runtime.seconds() < 5 && opModeIsActive()) {
+        while (runtime.seconds() < 5 && opModeIsActive()) {
             colors = colorSensor();
             telemetry.addData("red", colors[0]);
             telemetry.addData("blue", colors[1]);
@@ -118,16 +118,20 @@ public class autonRedCBSCSPGV extends LinearOpMode {
             if (colors[1] > colors[0]) {
                 sleep(500);
                 encoderXDrive(DRIVE_SPEED, 2, 2, 5);
-                robot.servoColor.setPosition(0);
+                robot.servoColor.setPosition(.2);
                 encoderXDrive(DRIVE_SPEED, -2, -2, 5);
+                break;
 
-            } else {
-                sleep(500);
+            } else if (colors[1] < colors[0]){
                 encoderXDrive(DRIVE_SPEED, -2, -2, 5);
-                robot.servoColor.setPosition(0);
+                robot.servoColor.setPosition(.2);
                 encoderXDrive(DRIVE_SPEED, 2, 2, 5);
 
+            } else {
+                robot.servoColor.setPosition(.2);
             }
+
+            break;
         }
         sleep(1000);
 

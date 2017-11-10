@@ -114,7 +114,10 @@ public class autonBlueFBSCSPG extends LinearOpMode {
                 robot.servoColor.setPosition(SERVO_START);
                 encoderXDrive(DRIVE_SPEED, 2, 2, 5);
 
+            } else {
+                robot.servoColor.setPosition(.2);
             }
+            break;
         }
 
         sleep(1000);

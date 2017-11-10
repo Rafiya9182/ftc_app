@@ -122,11 +122,11 @@ public class teleOpHolonomicDrive extends OpMode {
         double liftPower = -gamepad2.left_stick_y;
 
         if (gamepad2.right_trigger > 0.2){
-            liftPower = Range.clip(liftPower, -.25, .25);
+            liftPower = Range.clip(liftPower, -.5, .5);
 
         } else {
 
-            liftPower = Range.clip(liftPower, -.5, .5);
+            liftPower = Range.clip(liftPower, -.75, .75);
         }
 
         robot.motorLift.setPower(liftPower);

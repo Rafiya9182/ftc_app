@@ -85,7 +85,7 @@ public class autonRedCBSCSPG extends LinearOpMode {
 
         encoderLiftDrive(LIFT_SPEED, 5, 2.0 );
 
-        robot.servoColor.setPosition(.85);
+        robot.servoColor.setPosition(1.0);
         sleep(1000);// pause for servos to move
 
 
@@ -107,7 +107,7 @@ public class autonRedCBSCSPG extends LinearOpMode {
                 encoderXDrive(DRIVE_SPEED, -2, -2, 5);
                 robot.servoColor.setPosition(SERVO_START);
                 encoderXDrive(DRIVE_SPEED, 2, 2, 5);
-                break;
+
             }
             break;
         }
@@ -118,7 +118,7 @@ public class autonRedCBSCSPG extends LinearOpMode {
         //driving from CBS (close balancing stone) to cryptobox, robot front facing wall
         //X: (+, -) = left; (-, +) = right
         //Y: (-, +) = backward; (+, -) = forward
-            encoderYDrive(DRIVE_SPEED, 9.5, -9.5, 7.0); // continues back to front of cryptobox, fiddle with
+            encoderYDrive(DRIVE_SPEED, 10.5, -10.5, 7.0); // continues back to front of cryptobox, fiddle with
             sleep(500);
             encoderXDrive(TURN_SPEED, 10, 10, 12.0); //spin 180 degrees to get lift in front
             sleep(500);
