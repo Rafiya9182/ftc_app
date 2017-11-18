@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  */
 
 @Autonomous(name="RedClose", group="Red")
-//@Disabled
+@Disabled
 public class autonRedCBSPG extends LinearOpMode {
 
     /* Declare OpMode members. */

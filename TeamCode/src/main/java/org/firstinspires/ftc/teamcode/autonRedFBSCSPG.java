@@ -14,7 +14,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  */
 
 @Autonomous(name="ColorReFar", group="Red")
-//Disabled
+@Disabled
 public class autonRedFBSCSPG extends LinearOpMode {
 
     /* Declare OpMode members. */

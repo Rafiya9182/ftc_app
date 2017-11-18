@@ -13,7 +13,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  */
 
 @Autonomous(name="ColorBFar", group="Blue")
-//@Disabled
+@Disabled
 public class autonBlueFBSCSPG extends LinearOpMode {
 
     /* Declare OpMode members. */

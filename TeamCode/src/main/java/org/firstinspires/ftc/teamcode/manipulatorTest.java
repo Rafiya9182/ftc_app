@@ -10,10 +10,11 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.Range;
 
 
 @TeleOp(name = "Manipulator Test", group = "TeleOp")
-@Disabled
+//@Disabled
 public class manipulatorTest extends OpMode {
 
 
@@ -48,24 +49,24 @@ public class manipulatorTest extends OpMode {
     @Override
     public void loop() {
 
-
         //Manipulator moves two servos when hit trigger
         if (gamepad1.right_trigger > 0.2) {
-            servo.setPosition(1.0);
-            servo2.setPosition(0.0);
+            servo.setPosition(.37);
+            servo2.setPosition(.63);
         } else if (gamepad1.left_trigger > 0.2) {
             servo.setPosition(.5);
             servo2.setPosition(.5);
         } else {
-            servo.setPosition(0.0);
-            servo2.setPosition(1.0);
+            servo.setPosition(.25);
+            servo2.setPosition(.75);
         }
 
 
 		/*
 		 * Telemetry for debugging
 		 */
-
+        telemetry.addData("Servo", servo.getPosition());
+        telemetry.addData("Servo2", servo2.getPosition());
 
 
     }
@@ -74,4 +75,6 @@ public class manipulatorTest extends OpMode {
     public void stop() {
 
     }
+
 }
+
