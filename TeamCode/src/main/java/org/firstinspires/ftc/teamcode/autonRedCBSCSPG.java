@@ -13,7 +13,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  */
 
 @Autonomous(name="ColorRClose", group="Red")
-//@Disabled
+@Disabled
 public class autonRedCBSCSPG extends LinearOpMode {
 
     /* Declare OpMode members. */
@@ -85,13 +85,13 @@ public class autonRedCBSCSPG extends LinearOpMode {
 
         encoderLiftDrive(LIFT_SPEED, 5, 2.0 );
 
-        robot.servoColor.setPosition(1.0);
-        sleep(1000);// pause for servos to move
+        //robot.servoColor.setPosition(.75);
+        //sleep(1000);// pause for servos to move
 
 
         //color sensor sode for jewels
         //color sensor code for jewels
-        runtime.reset();
+        /*runtime.reset();
         while (runtime.seconds() < 5 && opModeIsActive()) {
             colors = colorSensor();
             telemetry.addData("red", colors[0]);
@@ -102,25 +102,25 @@ public class autonRedCBSCSPG extends LinearOpMode {
                 encoderXDrive(DRIVE_SPEED, 2, 2, 5);
                 robot.servoColor.setPosition(SERVO_START);
                 encoderXDrive(DRIVE_SPEED, -2, -2, 5);
+                break;
 
             } else if (colors[1] < colors[0]){
                 encoderXDrive(DRIVE_SPEED, -2, -2, 5);
                 robot.servoColor.setPosition(SERVO_START);
                 encoderXDrive(DRIVE_SPEED, 2, 2, 5);
-
+                break;
             }
-            break;
         }
-
-
-            sleep(1000);
+*/
+        //robot.servoColor.setPosition(.2);
+        sleep(1000);
 
         //driving from CBS (close balancing stone) to cryptobox, robot front facing wall
         //X: (+, -) = left; (-, +) = right
-        //Y: (-, +) = backward; (+, -) = forward
-            encoderYDrive(DRIVE_SPEED, 10.5, -10.5, 7.0); // continues back to front of cryptobox, fiddle with
+        //Y: (+, -) = backward; (-, +) = forward
+            encoderYDrive(DRIVE_SPEED, -11, 11, 7.0); // continues back to front of cryptobox, fiddle with
             sleep(500);
-            encoderXDrive(TURN_SPEED, 10, 10, 12.0); //spin 180 degrees to get lift in front
+            //encoderXDrive(TURN_SPEED, -6, -6, 12.0); //spin 180 degrees to get lift in front
             sleep(500);
             encoderYDrive(DRIVE_SPEED, -5, 5, 7.0); //forward to put glyph in
 
@@ -338,7 +338,7 @@ public class autonRedCBSCSPG extends LinearOpMode {
         }
     }
 
-    public int[] colorSensor () {
+    /*public int[] colorSensor () {
         int[] ret = new int[2];
 
         while (opModeIsActive()) {
@@ -353,6 +353,6 @@ public class autonRedCBSCSPG extends LinearOpMode {
     }
 
 
-
+*/
 
 }

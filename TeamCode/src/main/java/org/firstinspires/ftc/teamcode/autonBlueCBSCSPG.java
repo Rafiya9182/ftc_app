@@ -12,8 +12,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  *  that performs the actual movement.
  */
 
-@Autonomous(name="ColorBlClose", group="Blue")
-//@Disabled
+@Autonomous(name="ColorBClose", group="Blue")
+@Disabled
 public class autonBlueCBSCSPG extends LinearOpMode {
 
     /* Declare OpMode members. */
@@ -89,13 +89,13 @@ public class autonBlueCBSCSPG extends LinearOpMode {
         encoderLiftDrive(LIFT_SPEED, 5, 2.0 );
 
         //put down color sensor arm
-        robot.servoColor.setPosition(1.0);
+        //robot.servoColor.setPosition(.75);
         sleep(1000);// pause for servos to move
 
 
         //color sensor code for jewels
         runtime.reset();
-        while (runtime.seconds() < 5 && opModeIsActive()) {
+        /*while (runtime.seconds() < 5 && opModeIsActive()) {
             colors = colorSensor();
             telemetry.addData("red", colors[0]);
             telemetry.addData("blue", colors[1]);
@@ -105,6 +105,7 @@ public class autonBlueCBSCSPG extends LinearOpMode {
                 encoderXDrive(DRIVE_SPEED, 2, 2, 5);
                 robot.servoColor.setPosition(.2);
                 encoderXDrive(DRIVE_SPEED, -2, -2, 5);
+                break;
 
             } else if (colors[0] < colors[1]){
                 encoderXDrive(DRIVE_SPEED, -2, -2, 5);
@@ -113,13 +114,15 @@ public class autonBlueCBSCSPG extends LinearOpMode {
                 break;
             }
         }
+*/
+        //robot.servoColor.setPosition(.2);
 
         sleep(1000);
 
         //driving from CBS (close balancing stone) to cryptobox, robot front facing wall
         //X: (+, -) = left; (-, +) = right
-        //Y: (-, +) = backward; (+, -) = forward
-        encoderYDrive(DRIVE_SPEED, -10.5, 10.5, 7.0); // continues forward to front of cryptobox, fiddle with
+        //Y: (+, -) = backward; (-, +) = forward
+        encoderYDrive(DRIVE_SPEED, -11, 11, 7.0); // continues forward to front of cryptobox, fiddle with
         sleep(500);
         encoderXDrive(TURN_SPEED, -6, -6, 7.0); //turn 180 to get glyph in front
         sleep(500);
@@ -336,7 +339,7 @@ public class autonBlueCBSCSPG extends LinearOpMode {
         }
     }
 
-    public int[] colorSensor () {
+    /*public int[] colorSensor () {
         int[] ret = new int[2];
 
         while (opModeIsActive()) {
@@ -350,7 +353,7 @@ public class autonBlueCBSCSPG extends LinearOpMode {
         return ret;
     }
 
-
+*/
 
 
 }

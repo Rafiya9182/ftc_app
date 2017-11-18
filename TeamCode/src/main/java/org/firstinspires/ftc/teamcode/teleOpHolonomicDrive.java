@@ -85,10 +85,10 @@ public class teleOpHolonomicDrive extends OpMode {
         } else {
 
             //clip the right/left values so that the values never exceed +/- 1
-            FrontRight = Range.clip(FrontRight, -1, 1);
-            FrontLeft = Range.clip(FrontLeft, -1, 1);
-            BackLeft = Range.clip(BackLeft, -1, 1);
-            BackRight = Range.clip(BackRight, -1, 1);
+            FrontRight = Range.clip(FrontRight, -.8, .8);
+            FrontLeft = Range.clip(FrontLeft, -.8, .8);
+            BackLeft = Range.clip(BackLeft, -.8, .8);
+            BackRight = Range.clip(BackRight, -.8, .8);
         }
 
 

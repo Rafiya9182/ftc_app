@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -12,7 +14,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  */
 
 @Autonomous(name="ColorReFar", group="Red")
-//@Disabled
+//Disabled
 public class autonRedFBSCSPG extends LinearOpMode {
 
     /* Declare OpMode members. */
@@ -88,12 +90,12 @@ public class autonRedFBSCSPG extends LinearOpMode {
 
         encoderLiftDrive(LIFT_SPEED, 5, 2.0 );
 
-        robot.servoColor.setPosition(.85);
+        //robot.servoColor.setPosition(.85);
         sleep(1000);// pause for servos to move
 
 
         //color sensor sode for jewels
-        runtime.reset();
+        /*runtime.reset();
         while (runtime.seconds() < 5 && opModeIsActive()) {
             colors = colorSensor();
             telemetry.addData("red", colors[0]);
@@ -102,35 +104,37 @@ public class autonRedFBSCSPG extends LinearOpMode {
             if (colors[1] > colors[0]) {
                 sleep(500);
                 encoderXDrive(DRIVE_SPEED, 2, 2, 5);
-                robot.servoColor.setPosition(.2);
+                robot.servoColor.setPosition(SERVO_START);
                 encoderXDrive(DRIVE_SPEED, -2, -2, 5);
+                break;
 
             } else if (colors[1] < colors[0]){
                 encoderXDrive(DRIVE_SPEED, -2, -2, 5);
-                robot.servoColor.setPosition(.2);
+                robot.servoColor.setPosition(SERVO_START);
                 encoderXDrive(DRIVE_SPEED, 2, 2, 5);
-            } else {
-                robot.servoColor.setPosition(.2);
+                break;
             }
-            break;
         }
+*/
+        //robot.servoColor.setPosition(.2);
 
-        sleep(1000);
+        //sleep(1000);
 
 
         //driving from CBS (close balancing stone) to cryptobox, robot front facing wall
         //X: (+, -) = left; (-, +) = right
-        //Y: (-, +) = backward; (+, -) = forward
-        encoderYDrive(DRIVE_SPEED, 12, -12, 7.0); // continues back to front of cryptobox
-        encoderXDrive(TURN_SPEED, 12, 12, 5.0);
-        encoderXDrive(DRIVE_SPEED, 6, -6, 5.0 );
-        sleep(500);
+        //Y: (+, -) = backward; (-, +) = forward
+        encoderYDrive(DRIVE_SPEED, -14, 14, 7.0); //move backwards
+        //encoderXDrive(TURN_SPEED, 12, 12, 5.0); //turn 180
+        //encoderXDrive(DRIVE_SPEED, -7, 7, 5.0 ); //go left
+       // sleep(500);
+
+        //encoderYDrive(DRIVE_SPEED, -4, 4, 5.0);
 
         robot.servo.setPosition(SERVO_START2);
         robot.servo2.setPosition(SERVO_START);
         sleep(500);
 
-        encoderYDrive(DRIVE_SPEED, -4, 4, 5.0);
         encoderYDrive(DRIVE_SPEED, 2, -2, 7.0);
 
         sleep(1000);     // pause for servos to move
@@ -335,7 +339,7 @@ public class autonRedFBSCSPG extends LinearOpMode {
 
         }
     }
-    public int[] colorSensor () {
+    /*public int[] colorSensor () {
         int[] ret = new int[2];
 
         while (opModeIsActive()) {
@@ -350,6 +354,6 @@ public class autonRedFBSCSPG extends LinearOpMode {
     }
 
 
-
+*/
 
 }

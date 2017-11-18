@@ -104,12 +104,12 @@ public class autonRedCBSCSPGV extends LinearOpMode {
 
         encoderLiftDrive(LIFT_SPEED, 2, 2.0 );
 
-        robot.servoColor.setPosition(1);
+        //robot.servoColor.setPosition(1);
         sleep(1000);// pause for servos to move
 
 
         //color sensor sode for jewels
-        runtime.reset();
+        /*runtime.reset();
         while (runtime.seconds() < 5 && opModeIsActive()) {
             colors = colorSensor();
             telemetry.addData("red", colors[0]);
@@ -133,6 +133,8 @@ public class autonRedCBSCSPGV extends LinearOpMode {
 
             break;
         }
+
+        */
         sleep(1000);
 
 
@@ -365,7 +367,7 @@ public class autonRedCBSCSPGV extends LinearOpMode {
         }
     }
 
-    public int[] colorSensor () {
+    /*public int[] colorSensor () {
         int[] ret = new int[2];
 
         while (opModeIsActive()) {
@@ -380,7 +382,7 @@ public class autonRedCBSCSPGV extends LinearOpMode {
     }
 
 
-
+*/
 }
 
 

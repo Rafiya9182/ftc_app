@@ -11,8 +11,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  *  that performs the actual movement.
  */
 
-@Autonomous(name="AutoRedClose", group="Red")
-@Disabled
+@Autonomous(name="RedClose", group="Red")
+//@Disabled
 public class autonRedCBSPG extends LinearOpMode {
 
     /* Declare OpMode members. */

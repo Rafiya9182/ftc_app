@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -77,27 +78,28 @@ public class autonBlueFBSCSPG extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
+        //setting servos to start position
         robot.servo.setPosition(SERVO_START2);
         robot.servo2.setPosition(SERVO_START);
 
         //lift goes down
-        encoderLiftDrive(LIFT_SPEED, -2, 2.0 );
+        encoderLiftDrive(LIFT_SPEED, -3, 2.0 );
 
         //grabbing glyph
         robot.servo.setPosition(SERVO_POSITION2);
         robot.servo2.setPosition(SERVO_POSITION);
 
         //lift goes up
-        encoderLiftDrive(LIFT_SPEED, 2, 2.0 );
+        encoderLiftDrive(LIFT_SPEED, 5, 2.0 );
 
         //put down color sensor arm
-        robot.servoColor.setPosition(.85);
-        sleep(1000);// pause for servos to move
+        //robot.servoColor.setPosition(.75);
+        //sleep(1000);// pause for servos to move
 
 
         //color sensor code for jewels
         //color sensor code for jewels
-        runtime.reset();
+        /*runtime.reset();
         while (runtime.seconds() < 5 && opModeIsActive()) {
             colors = colorSensor();
             telemetry.addData("red", colors[0]);
@@ -106,34 +108,39 @@ public class autonBlueFBSCSPG extends LinearOpMode {
             if (colors[0] > colors[1]) {
                 sleep(500);
                 encoderXDrive(DRIVE_SPEED, 2, 2, 5);
-                robot.servoColor.setPosition(SERVO_START);
+                robot.servoColor.setPosition(.2);
                 encoderXDrive(DRIVE_SPEED, -2, -2, 5);
+                break;
 
             } else if (colors[0] < colors[1]){
                 encoderXDrive(DRIVE_SPEED, -2, -2, 5);
-                robot.servoColor.setPosition(SERVO_START);
-                encoderXDrive(DRIVE_SPEED, 2, 2, 5);
-
-            } else {
                 robot.servoColor.setPosition(.2);
+                encoderXDrive(DRIVE_SPEED, 2, 2, 5);
+                break;
             }
-            break;
         }
+*/
+        //robot.servoColor.setPosition(.2);
 
         sleep(1000);
+
         //driving from CBS (close balancing stone) to cryptobox, robot front facing wall
-        //X: (+, -) = left; (-, +) = right
-        //Y: (-, +) = backward; (+, -) = forward
-        encoderXDrive(TURN_SPEED, -12, -12, 7.0); //turn 180 to get gltph in front
-        sleep(500);
-        encoderYDrive(DRIVE_SPEED, 18, -18, 7.0); // continues right to front og cryptobox
+        //X: (+, -) = right; (-, +) = left
+        //Y: (+, -) = backward; (-, +) = forward
+        encoderYDrive(DRIVE_SPEED, -9.5, 9.5, 7.0); //move backwards
+        encoderXDrive(DRIVE_SPEED, 6, -6, 5.0 ); //go left
+
+        encoderYDrive(DRIVE_SPEED, -4, 4, 5.0);
+
         sleep(500);
 
         robot.servo.setPosition(SERVO_START2);
         robot.servo2.setPosition(SERVO_START);
         sleep(500);
 
-        encoderYDrive(DRIVE_SPEED, -2, 2, 7.0);
+        encoderYDrive(DRIVE_SPEED, 2, -2, 7.0);
+
+        sleep(1000);     // pause for servos to move
 
         telemetry.addData("Path", "Complete");
         telemetry.update();
@@ -336,7 +343,7 @@ public class autonBlueFBSCSPG extends LinearOpMode {
 
         }
     }
-    public int[] colorSensor () {
+    /*public int[] colorSensor () {
         int[] ret = new int[2];
 
         while (opModeIsActive()) {
@@ -350,5 +357,5 @@ public class autonBlueFBSCSPG extends LinearOpMode {
         return ret;
     }
 
-
+*/
 }

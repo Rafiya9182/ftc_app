@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  *  that performs the actual movement.
  */
 
-@Autonomous(name="AutoBlueFar", group="Blue")
+@Autonomous(name="BlueFar", group="Blue")
 @Disabled
 public class autonBlueFBSPG extends LinearOpMode {
 
@@ -76,21 +76,20 @@ public class autonBlueFBSPG extends LinearOpMode {
         robot.servo.setPosition(SERVO_START2);
         robot.servo2.setPosition(SERVO_START);
 
-        encoderLiftDrive(LIFT_SPEED, -2, 2.0 );
+        encoderLiftDrive(LIFT_SPEED, -3, 2.0 );
 
         robot.servo.setPosition(SERVO_POSITION2);
         robot.servo2.setPosition(SERVO_POSITION);
 
-        encoderLiftDrive(LIFT_SPEED, 2, 2.0 );
+        encoderLiftDrive(LIFT_SPEED, 5, 2.0 );
 
         sleep(1000);// pause for servos to move
-
 
 
         //driving from CBS (close balancing stone) to cryptobox, robot front facing wall
         //X: (-, +) = left; (+, -) = right
         //Y: (-, +) = backward; (+, -) = forward
-        encoderYDrive(DRIVE_SPEED, -18, 18, 7.0); // continues right to front og cryptobox
+        encoderYDrive(DRIVE_SPEED, -12, 12, 7.0); //forward to put glyph in
         sleep(500);
 
         robot.servo.setPosition(SERVO_START2);
@@ -98,6 +97,7 @@ public class autonBlueFBSPG extends LinearOpMode {
         encoderYDrive(DRIVE_SPEED, 2, -2, 7.0);
 
         sleep(1000);     // pause for servos to move
+
 
         telemetry.addData("Path", "Complete");
         telemetry.update();
