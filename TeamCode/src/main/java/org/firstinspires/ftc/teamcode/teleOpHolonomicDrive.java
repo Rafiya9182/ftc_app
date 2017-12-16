@@ -62,7 +62,7 @@ public class teleOpHolonomicDrive extends OpMode {
         // left stick controls direction
         // right stick X controls rotation
 
-        double gamepad1LeftY = -gamepad1.left_stick_y;
+        double gamepad1LeftY = gamepad1.left_stick_y;
         double gamepad1LeftX = -gamepad1.left_stick_x;
         double gamepad1RightX = -gamepad1.right_stick_x;
 
@@ -110,8 +110,8 @@ public class teleOpHolonomicDrive extends OpMode {
             robot.servo.setPosition(1.0);
             robot.servo2.setPosition(0.0);
         }  else if (gamepad2.x){
-            robot.servo.setPosition(.7);
-            robot.servo2.setPosition(.3);
+            robot.servo.setPosition(.65);
+            robot.servo2.setPosition(.35);
         } else {
             robot.servo.setPosition(.5);
             robot.servo2.setPosition(.5);

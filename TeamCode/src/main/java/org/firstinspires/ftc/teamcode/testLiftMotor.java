@@ -16,7 +16,7 @@ import com.qualcomm.robotcore.util.Range;
 
 @TeleOp(name = "Lift Test", group = "TeleOp")
 @Disabled
-public class liftMotorTest extends OpMode {
+public class testLiftMotor extends OpMode {
 
     DcMotor motorLift;
     Servo servo;

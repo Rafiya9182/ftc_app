@@ -11,21 +11,21 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  *  that performs the actual movement.
  */
 
-@Autonomous(name="RedFar", group="Red")
+@Autonomous(name="BlueFar", group="Blue")
 @Disabled
-public class autonRedFBSPG extends LinearOpMode {
+public class BlueFBSPG extends LinearOpMode {
 
     /* Declare OpMode members. */
     robotHardware robot   = new robotHardware();   // Use a Pushbot's hardware
 
     private ElapsedTime runtime = new ElapsedTime();
 
-    static final double     COUNTS_PER_MOTOR_REV    = 1120 ;    // eg: TETRIX Motor Encoder
+    static final double     COUNTS_PER_MOTOR_REV    = 1440 ;    // eg: TETRIX Motor Encoder
     static final double     DRIVE_GEAR_REDUCTION    = 2.0 ;     // This is < 1.0 if geared UP
     static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * 3.1415);
-    static final double     DRIVE_SPEED             = 0.5;
+    static final double     DRIVE_SPEED             = 0.6;
     static final double     LIFT_SPEED             = 0.2;
 
     static final double     SERVO_POSITION          = .2;
@@ -33,7 +33,6 @@ public class autonRedFBSPG extends LinearOpMode {
 
     static final double     SERVO_START          = .5;
     static final double     SERVO_START2          = .5;
-
 
 
     ElapsedTime timer = new ElapsedTime();
@@ -74,7 +73,6 @@ public class autonRedFBSPG extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
-        //setting servos to glyph size
         robot.servo.setPosition(SERVO_START2);
         robot.servo2.setPosition(SERVO_START);
 
@@ -99,6 +97,7 @@ public class autonRedFBSPG extends LinearOpMode {
         encoderYDrive(DRIVE_SPEED, 2, -2, 7.0);
 
         sleep(1000);     // pause for servos to move
+
 
         telemetry.addData("Path", "Complete");
         telemetry.update();
@@ -259,6 +258,10 @@ public class autonRedFBSPG extends LinearOpMode {
 
             //  sleep(250);   // optional pause after each move
         }
+    }
+    public void encoderTurnDrive(double speedTurn,
+                                 double Inches){
+
     }
     public void encoderLiftDrive(double speed,
                                  double Inches,

@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -8,25 +7,20 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
-import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
-
-/* created by Keran 10/03/17
+/**
  *  The code is written using a method called: encoderDrive(speed, leftInches, rightInches, timeoutS)
+ *  that performs the actual movement.
  */
 
-@Autonomous(name="CloseRVuforia", group="Red")
-@Disabled
-public class autonRedCBSCSPGV extends LinearOpMode {
+@Autonomous(name="ColorRClose", group="Red")
+//@Disabled
+public class RedCBSCSPG extends LinearOpMode {
 
     /* Declare OpMode members. */
-    robotHardware robot   = new robotHardware();   // Use a Pushbot's hardware
+    robotHardware   robot   = new robotHardware();   // Use a Pushbot's hardware
 
     private ElapsedTime runtime = new ElapsedTime();
     int[] colors;
-    ColorSensor colorSensor;
 
     static final double     COUNTS_PER_MOTOR_REV    = 1440 ;    // eg: TETRIX Motor Encoder
     static final double     DRIVE_GEAR_REDUCTION    = 2.0 ;     // This is < 1.0 if geared UP
@@ -44,9 +38,6 @@ public class autonRedCBSCSPGV extends LinearOpMode {
     static final double     SERVO_START          = .5;
     static final double     SERVO_START2          = .5;
 
-    vuforiaSensor vuforiaSensor = new vuforiaSensor();
-    VuforiaLocalizer vuforia;
-
     @Override
     public void runOpMode() {
 
@@ -55,6 +46,7 @@ public class autonRedCBSCSPGV extends LinearOpMode {
          * The init() method of the hardware class does all the work here
          */
         robot.init(hardwareMap);
+
 
         // Send telemetry message to signify robot waiting;
         telemetry.addData("Status", "Resetting Encoders");    //
@@ -70,14 +62,6 @@ public class autonRedCBSCSPGV extends LinearOpMode {
         robot.motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-
-        VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
-        VuforiaTrackable relicTemplate = relicTrackables.get(0);
-        relicTemplate.setName("relicVuMarkTemplate");
-        RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
-
-
-
         // Send telemetry message to indicate successful Encoder reset
         telemetry.addData("Path0",  "Starting at %7d :%7d",
             robot.motorFrontRight.getCurrentPosition(),
@@ -87,9 +71,6 @@ public class autonRedCBSCSPGV extends LinearOpMode {
 
         telemetry.update();
 
-
-        vuforiaSensor.visionActivate();
-
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
@@ -97,19 +78,19 @@ public class autonRedCBSCSPGV extends LinearOpMode {
         robot.servo.setPosition(SERVO_START2);
         robot.servo2.setPosition(SERVO_START);
 
-        encoderLiftDrive(LIFT_SPEED, -2, 2.0 );
+        encoderLiftDrive(LIFT_SPEED, -3, 2.0 );
 
         robot.servo.setPosition(SERVO_POSITION2);
         robot.servo2.setPosition(SERVO_POSITION);
 
-        encoderLiftDrive(LIFT_SPEED, 2, 2.0 );
+        encoderLiftDrive(LIFT_SPEED, 5, 2.0 );
 
-        //robot.servoColor.setPosition(1);
+        robot.servoColor.setPosition(.80);
         sleep(1000);// pause for servos to move
 
 
-        //color sensor sode for jewels
-        /*runtime.reset();
+        //color sensor code for jewels
+        runtime.reset();
         while (runtime.seconds() < 5 && opModeIsActive()) {
             colors = colorSensor();
             telemetry.addData("red", colors[0]);
@@ -118,57 +99,46 @@ public class autonRedCBSCSPGV extends LinearOpMode {
             if (colors[1] > colors[0]) {
                 sleep(500);
                 encoderXDrive(DRIVE_SPEED, 2, 2, 5);
-                robot.servoColor.setPosition(.2);
+                robot.servoColor.setPosition(SERVO_START);
                 encoderXDrive(DRIVE_SPEED, -2, -2, 5);
                 break;
 
             } else if (colors[1] < colors[0]){
                 encoderXDrive(DRIVE_SPEED, -2, -2, 5);
-                robot.servoColor.setPosition(.2);
+                robot.servoColor.setPosition(SERVO_START);
                 encoderXDrive(DRIVE_SPEED, 2, 2, 5);
-
-            } else {
-                robot.servoColor.setPosition(.2);
+                break;
             }
-
-            break;
         }
 
-        */
+        robot.servoColor.setPosition(.2);
         sleep(1000);
 
+        //driving from CBS (close balancing stone) to cryptobox, robot front facing wall
+        //X: (+, -) = right; (-, +) = left
+        //Y: (+, -) = forward; (-, +) = backward
+            encoderYDrive(DRIVE_SPEED, -11, 11, 7.0); // continues back to front of cryptobox, fiddle with
+            sleep(500);
+            encoderXDrive(TURN_SPEED, -6, -6, 12.0); //spin 180 degrees to get lift in front
+            sleep(500);
+            encoderYDrive(DRIVE_SPEED, 5, -5, 7.0); //forward to put glyph in
 
+            sleep(500);
 
-        if (vuMark != RelicRecoveryVuMark.LEFT){
-            encoderYDrive(DRIVE_SPEED, -16, 16, 7.0); // continues left to front of cryptobox, fiddle with
+            //let go off glyph
+            robot.servo.setPosition(SERVO_START2);
+            robot.servo2.setPosition(SERVO_START);
+            sleep(500);
 
+            //drive bavk a little to avoid robot contact with glyph
+            encoderYDrive(DRIVE_SPEED, -2, 2, 7.0);
+
+            sleep(1000);     // pause for servos to move
+
+            telemetry.addData("Path", "Complete");
+            telemetry.update();
         }
-        else if(vuMark != RelicRecoveryVuMark.CENTER){
-            encoderYDrive(DRIVE_SPEED, -14, 14, 7.0); // continues left to front of cryptobox, fiddle with
 
-        }
-        else if(vuMark != RelicRecoveryVuMark.RIGHT){
-            encoderYDrive(DRIVE_SPEED, -12, 12, 7.0); // continues left to front of cryptobox, fiddle with
-        }
-
-        encoderXDrive(TURN_SPEED, 6, 6, 12.0); //spin 180 degrees to get lift in front
-        sleep(500);
-        encoderYDrive(DRIVE_SPEED, -5, 5, 7.0); //forward to put glyph in
-        sleep(500);
-
-        //let go off glyph
-        robot.servo.setPosition(SERVO_START2);
-        robot.servo2.setPosition(SERVO_START);
-
-        sleep(500);
-
-        //drive bavk a little to avoid robot contact with glyph
-        encoderYDrive(DRIVE_SPEED, 2, -2, 7.0);
-
-
-        telemetry.addData("Path", "Complete");
-        telemetry.update();
-    }
 
     /*
      *  Method to perfmorm a relative move, based on encoder counts.
@@ -367,7 +337,7 @@ public class autonRedCBSCSPGV extends LinearOpMode {
         }
     }
 
-    /*public int[] colorSensor () {
+    public int[] colorSensor () {
         int[] ret = new int[2];
 
         while (opModeIsActive()) {
@@ -382,7 +352,5 @@ public class autonRedCBSCSPGV extends LinearOpMode {
     }
 
 
-*/
+
 }
-
-

@@ -13,7 +13,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 @Autonomous(name="RedClose", group="Red")
 @Disabled
-public class autonRedCBSPG extends LinearOpMode {
+public class RedCBSPG extends LinearOpMode {
 
     /* Declare OpMode members. */
     robotHardware robot   = new robotHardware();   // Use a Pushbot's hardware

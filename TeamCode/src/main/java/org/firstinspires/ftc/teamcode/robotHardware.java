@@ -31,8 +31,8 @@ public class robotHardware {
     public DcMotor motorLift = null;
     public Servo servo = null;
     public Servo servo2 = null;
-    //public Servo servoColor = null;
-    //public ColorSensor  colorSensor;
+    public Servo servoColor = null;
+    public ColorSensor  colorSensor;
 
 
     public int[]    colors = null;
@@ -63,8 +63,8 @@ public class robotHardware {
         motorLift   =   hwMap.get(DcMotor.class, "nu");
         servo   =   hwMap.get(Servo.class, "servo");
         servo2  =   hwMap.get(Servo.class, "servo2");
-        //servoColor  =   hwMap.get(Servo.class, "servocolor");
-        //colorSensor =   hwMap.get(ColorSensor.class, "color");
+        servoColor  =   hwMap.get(Servo.class, "servocolor");
+        colorSensor =   hwMap.get(ColorSensor.class, "color");
 
         motorFrontRight.setDirection(DcMotor.Direction.REVERSE);
         motorFrontLeft.setDirection(DcMotor.Direction.REVERSE);

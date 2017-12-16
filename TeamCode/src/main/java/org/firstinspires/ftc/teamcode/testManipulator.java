@@ -14,8 +14,8 @@ import com.qualcomm.robotcore.util.Range;
 
 
 @TeleOp(name = "Manipulator Test", group = "TeleOp")
-//@Disabled
-public class manipulatorTest extends OpMode {
+@Disabled
+public class testManipulator extends OpMode {
 
 
     Servo servo;

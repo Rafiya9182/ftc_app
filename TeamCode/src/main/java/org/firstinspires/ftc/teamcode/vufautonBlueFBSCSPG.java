@@ -1,11 +1,14 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
+import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
 /**
  *  The code is written using a method called: encoderDrive(speed, leftInches, rightInches, timeoutS)
@@ -13,8 +16,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  */
 
 @Autonomous(name="ColorBFar", group="Blue")
-@Disabled
-public class autonBlueFBSCSPG extends LinearOpMode {
+//@Disabled
+public class vufautonBlueFBSCSPG extends LinearOpMode {
 
     /* Declare OpMode members. */
     robotHardware robot   = new robotHardware();   // Use a Pushbot's hardware
@@ -39,8 +42,8 @@ public class autonBlueFBSCSPG extends LinearOpMode {
     static final double     SERVO_START2          = .5;
 
 
-    ElapsedTime timer = new ElapsedTime();
-
+    vuforiaSensor vuforiaSensor = new vuforiaSensor();
+    VuforiaLocalizer vuforia;
 
     @Override
     public void runOpMode() {
@@ -66,6 +69,13 @@ public class autonBlueFBSCSPG extends LinearOpMode {
         robot.motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robot.motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
+
+        VuforiaTrackables relicTrackables = this.vuforia.loadTrackablesFromAsset("RelicVuMark");
+        VuforiaTrackable relicTemplate = relicTrackables.get(0);
+        relicTemplate.setName("relicVuMarkTemplate");
+        RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
+
+
         // Send telemetry message to indicate successful Encoder reset
         telemetry.addData("Path0",  "Starting at %7d :%7d",
             robot.motorFrontRight.getCurrentPosition(),
@@ -75,7 +85,10 @@ public class autonBlueFBSCSPG extends LinearOpMode {
 
         telemetry.update();
 
-        // Wait for the game to start (driver presses PLAY)
+        vuforiaSensor.visionActivate();
+
+
+        // Wait for the game to star
         waitForStart();
 
         //setting servos to start position
@@ -93,13 +106,12 @@ public class autonBlueFBSCSPG extends LinearOpMode {
         encoderLiftDrive(LIFT_SPEED, 5, 2.0 );
 
         //put down color sensor arm
-        //robot.servoColor.setPosition(.75);
-        //sleep(1000);// pause for servos to move
+        robot.servoColor.setPosition(.80);
+        sleep(1000);// pause for servos to move
 
 
         //color sensor code for jewels
-        //color sensor code for jewels
-        /*runtime.reset();
+        runtime.reset();
         while (runtime.seconds() < 5 && opModeIsActive()) {
             colors = colorSensor();
             telemetry.addData("red", colors[0]);
@@ -119,18 +131,27 @@ public class autonBlueFBSCSPG extends LinearOpMode {
                 break;
             }
         }
-*/
-        //robot.servoColor.setPosition(.2);
+
+        robot.servoColor.setPosition(.2);
 
         sleep(1000);
 
         //driving from CBS (close balancing stone) to cryptobox, robot front facing wall
         //X: (+, -) = right; (-, +) = left
-        //Y: (+, -) = backward; (-, +) = forward
-        encoderYDrive(DRIVE_SPEED, -9.5, 9.5, 7.0); //move backwards
-        encoderXDrive(DRIVE_SPEED, 6, -6, 5.0 ); //go left
+        //Y: (-, +) = backward; (+, -) = forward
+        encoderYDrive(DRIVE_SPEED, 7.5, -7.5, 7.0); //go forward
 
-        encoderYDrive(DRIVE_SPEED, -4, 4, 5.0);
+        if (vuMark != RelicRecoveryVuMark.LEFT){
+            encoderXDrive(DRIVE_SPEED, 4, -4, 7.0); // continues left to front of cryptobox, fiddle with
+        } else if(vuMark != RelicRecoveryVuMark.CENTER){
+            encoderXDrive(DRIVE_SPEED, 7.5, -7.5, 7.0); // continues left to front of cryptobox, fiddle with
+        } else if(vuMark != RelicRecoveryVuMark.RIGHT){
+            encoderXDrive(DRIVE_SPEED, 9, -9, 7.0); // continues left to front of cryptobox, fiddle with
+        } else {
+            encoderXDrive(DRIVE_SPEED, 6, -6, 7.0);
+        }
+
+        encoderYDrive(DRIVE_SPEED, 4, -4, 5.0); //forward
 
         sleep(500);
 
@@ -138,7 +159,7 @@ public class autonBlueFBSCSPG extends LinearOpMode {
         robot.servo2.setPosition(SERVO_START);
         sleep(500);
 
-        encoderYDrive(DRIVE_SPEED, 2, -2, 7.0);
+        encoderYDrive(DRIVE_SPEED, -2, 2, 7.0); //move back
 
         sleep(1000);     // pause for servos to move
 
@@ -343,7 +364,7 @@ public class autonBlueFBSCSPG extends LinearOpMode {
 
         }
     }
-    /*public int[] colorSensor () {
+    public int[] colorSensor () {
         int[] ret = new int[2];
 
         while (opModeIsActive()) {
@@ -357,5 +378,5 @@ public class autonBlueFBSCSPG extends LinearOpMode {
         return ret;
     }
 
-*/
+
 }

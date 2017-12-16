@@ -11,21 +11,21 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  *  that performs the actual movement.
  */
 
-@Autonomous(name="AutoBlueClose", group="Blue")
+@Autonomous(name="RedFar", group="Red")
 @Disabled
-public class autonBlueCBSPG extends LinearOpMode {
+public class RedFBSPG extends LinearOpMode {
 
     /* Declare OpMode members. */
-    robotHardware   robot   = new robotHardware();   // Use a Pushbot's hardware
+    robotHardware robot   = new robotHardware();   // Use a Pushbot's hardware
 
     private ElapsedTime runtime = new ElapsedTime();
 
-    static final double     COUNTS_PER_MOTOR_REV    = 1440 ;    // eg: TETRIX Motor Encoder
+    static final double     COUNTS_PER_MOTOR_REV    = 1120 ;    // eg: TETRIX Motor Encoder
     static final double     DRIVE_GEAR_REDUCTION    = 2.0 ;     // This is < 1.0 if geared UP
     static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
             (WHEEL_DIAMETER_INCHES * 3.1415);
-    static final double     DRIVE_SPEED             = 0.6;
+    static final double     DRIVE_SPEED             = 0.5;
     static final double     LIFT_SPEED             = 0.2;
 
     static final double     SERVO_POSITION          = .2;
@@ -78,12 +78,12 @@ public class autonBlueCBSPG extends LinearOpMode {
         robot.servo.setPosition(SERVO_START2);
         robot.servo2.setPosition(SERVO_START);
 
-        encoderLiftDrive(LIFT_SPEED, -2, 2.0 );
+        encoderLiftDrive(LIFT_SPEED, -3, 2.0 );
 
         robot.servo.setPosition(SERVO_POSITION2);
         robot.servo2.setPosition(SERVO_POSITION);
 
-        encoderLiftDrive(LIFT_SPEED, 2, 2.0 );
+        encoderLiftDrive(LIFT_SPEED, 5, 2.0 );
 
         sleep(1000);// pause for servos to move
 
@@ -91,16 +91,14 @@ public class autonBlueCBSPG extends LinearOpMode {
         //driving from CBS (close balancing stone) to cryptobox, robot front facing wall
         //X: (-, +) = left; (+, -) = right
         //Y: (-, +) = backward; (+, -) = forward
-        encoderXDrive(DRIVE_SPEED, 14, -14, 7.0); // continues right to front of cryptobox, fiddle with
+        encoderYDrive(DRIVE_SPEED, -12, 12, 7.0); //forward to put glyph in
         sleep(500);
-        encoderYDrive(DRIVE_SPEED, -6, 6, 7.0); //forward to put glyph in
-        //encoderYDrive(DRIVE_SPEED,   -12, 12, 7.0);  // goes back
 
         robot.servo.setPosition(SERVO_START2);
         robot.servo2.setPosition(SERVO_START);
         encoderYDrive(DRIVE_SPEED, 2, -2, 7.0);
 
-
+        sleep(1000);     // pause for servos to move
 
         telemetry.addData("Path", "Complete");
         telemetry.update();

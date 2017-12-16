@@ -13,8 +13,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  */
 
 @Autonomous(name="ColorBClose", group="Blue")
-@Disabled
-public class autonBlueCBSCSPG extends LinearOpMode {
+//@Disabled
+public class BlueCBSCSPG extends LinearOpMode {
 
     /* Declare OpMode members. */
     robotHardware   robot   = new robotHardware();   // Use a Pushbot's hardware
@@ -89,13 +89,13 @@ public class autonBlueCBSCSPG extends LinearOpMode {
         encoderLiftDrive(LIFT_SPEED, 5, 2.0 );
 
         //put down color sensor arm
-        //robot.servoColor.setPosition(.75);
+        robot.servoColor.setPosition(.80);
         sleep(1000);// pause for servos to move
 
 
         //color sensor code for jewels
         runtime.reset();
-        /*while (runtime.seconds() < 5 && opModeIsActive()) {
+        while (runtime.seconds() < 5 && opModeIsActive()) {
             colors = colorSensor();
             telemetry.addData("red", colors[0]);
             telemetry.addData("blue", colors[1]);
@@ -114,19 +114,19 @@ public class autonBlueCBSCSPG extends LinearOpMode {
                 break;
             }
         }
-*/
-        //robot.servoColor.setPosition(.2);
+
+        robot.servoColor.setPosition(.2);
 
         sleep(1000);
 
         //driving from CBS (close balancing stone) to cryptobox, robot front facing wall
-        //X: (+, -) = left; (-, +) = right
-        //Y: (+, -) = backward; (-, +) = forward
-        encoderYDrive(DRIVE_SPEED, -11, 11, 7.0); // continues forward to front of cryptobox, fiddle with
+        //X: (+, -) = right; (-, +) = left
+        //Y: (-, +) = backward; (+, -) = forward
+        encoderYDrive(DRIVE_SPEED, 9, -9, 7.0); // continues forward to front of cryptobox, fiddle with
         sleep(500);
-        encoderXDrive(TURN_SPEED, -6, -6, 7.0); //turn 180 to get glyph in front
+        encoderXDrive(TURN_SPEED, -6, -6, 7.0); //turn 90 to get glyph in front
         sleep(500);
-        encoderYDrive(DRIVE_SPEED, -5, 5, 7.0); //forward to put glyph in
+        encoderYDrive(DRIVE_SPEED, 5, -5, 7.0); //forward to put glyph in
 
         sleep(500);
 
@@ -136,7 +136,7 @@ public class autonBlueCBSCSPG extends LinearOpMode {
         sleep(500);
 
         //drive back to avoid contact with glyph
-        encoderYDrive(DRIVE_SPEED, 2, -2, 7.0);
+        encoderYDrive(DRIVE_SPEED, -2, 2, 7.0);
 
         telemetry.addData("Path", "Complete");
         telemetry.update();
@@ -339,7 +339,7 @@ public class autonBlueCBSCSPG extends LinearOpMode {
         }
     }
 
-    /*public int[] colorSensor () {
+    public int[] colorSensor () {
         int[] ret = new int[2];
 
         while (opModeIsActive()) {
@@ -353,7 +353,7 @@ public class autonBlueCBSCSPG extends LinearOpMode {
         return ret;
     }
 
-*/
+
 
 
 }
